@@ -111,7 +111,8 @@ const Abonament_UserRoutes = require("./routes/abonament_user");
 
 //Connect to Mongoose
 let mongoose = require("mongoose"); 
-mongoose.connect('mongodb://localhost/test');
+var connection = process.env.MONGODB_URI || "mongodb://admin:paipai123@ds111244.mlab.com:11244/happyapi";
+mongoose.connect(connection);
 
 //Test MongoDB Connection
 var db = mongoose.connection;
@@ -148,5 +149,5 @@ app.use((error, req, res, next) => {
 
 
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000);
 console.log("Running a GraphQL API server at localhost:4000/graphql");
