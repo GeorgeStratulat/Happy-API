@@ -5,8 +5,8 @@ var BauturaSchema = new mongoose.Schema({
     nume: String,
     cantitate: Number,
     tip: String,
-    // locatie: [{type: mongoose.Schema.Types.ObjectId, ref:"Venue"}],
-    locatie: String,
+    locatie: [{type: mongoose.Schema.Types.ObjectId, ref:"Venue"}],
+    
     imagine: String
 
 });

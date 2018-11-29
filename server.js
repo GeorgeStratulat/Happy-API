@@ -1,5 +1,6 @@
 let express = require("express");
 
+var cors = require("cors");
 let bodyParser = require("body-parser");
 const AbonamenteRoutes = require('./routes/abonamente');
 const UserRoutes = require("./routes/users");
@@ -22,7 +23,29 @@ db.on('connected', function () {
 });
 
 let app = express();
+
+
+app.use((req, res, next) => {
+  // const error = new Error('Route not found');
+  // error.status = 404;
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  next();
+});
 app.use(bodyParser.json());
+
 
 
 app.use('/abonamente', AbonamenteRoutes);
@@ -31,21 +54,19 @@ app.use("/bautura", BauturaRoutes);
 app.use("/venue", VenueRoutes);
 app.use("/abonament_user", Abonament_UserRoutes);
 
-app.use((req, res, next) => {
-  const error = new Error('Route not found');
-  error.status = 404;
-  next(error);
-});
+
 
 //custom error handling for unknown routes
-app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.json({
-    error: {
-      message: error.message
-    }
-  });
-});
+// app.use((error, req, res, next) => {
+//   res.status(error.status || 500);
+//   res.json({
+//     error: {
+//       message: error.message
+//     }
+//   });
+// });
+
+
 
 
 

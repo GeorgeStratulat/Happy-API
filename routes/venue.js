@@ -56,7 +56,8 @@ router.get("/:venueId", (req,res) => {
       });
     
 });
-router.patch("/:venueId", (req,res)=>{
+
+router.put("/:venueId", (req,res)=>{
     const id = req.params.venueId;
     Venues.update({_id:id}, {$set:{
         nume: req.body.nume,
@@ -64,6 +65,28 @@ router.patch("/:venueId", (req,res)=>{
     bauturi: req.body.bauturi,
     imagine: req.body.imagine,
     detalii: req.body.detalii
+    }
+    })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.patch("/:venueId/:venueLocatie", (req,res)=>{
+    const id = req.params.venueId;
+    const locatieSchimbata = req.params.venueLocatie;
+    Venues.update({_id:id}, {$set:{
+        locatie: locatieSchimbata
     }
     })
     .exec()
@@ -96,6 +119,43 @@ router.delete("/:venueId", (req,res) =>{
           error: err
         });
       });
+});
+
+router.post("/:venueId/:bauturaId", (req, res) =>{
+    const idv = req.params.venueId;
+    const idb = req.params.bauturaId;
+    
+    Bauturi.findById(idb).exec().then(doc=>{
+        // console.log("From database ", doc);
+        const bautura = doc;
+        console.log(bautura);
+        if(doc){
+            res.status(200).json(doc);
+        }else{
+            res.status(404).json({message: "No drink found"});
+        }
+    }).catch(err=>{console.log(err); res.status.json({error: err})})
+    
+    Venue.update(
+        {_id:id}, {
+        bauturi: bautura._id
+    }
+    )
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+
+
 });
 
 module.exports = router;

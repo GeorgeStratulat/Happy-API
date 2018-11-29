@@ -57,15 +57,16 @@ router.get("/:bauturaId", (req,res) => {
       });
     
 });
-router.patch("/:bauturaId", (req,res)=>{
+router.put("/:bauturaId", (req,res)=>{
     const id = req.params.bauturaId;
-    Bauturi.update({_id:id}, {$set:{
+    Bauturi.update(
+        {_id:id}, {
         nume: req.body.nume,
         cantitate: req.body.cantitate,
         tip: req.body.tip,
-        locatie: req.body.locatie
+        locatie: req.body.locatie,
     }
-    })
+    )
     .exec()
     .then(result => {
       console.log(result);
