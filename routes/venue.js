@@ -62,8 +62,7 @@ router.get("/:venueId/bautura", (req,res) => {
   const id = req.params.venueId;
   Venues.findById(id).exec().then(doc=>{
       console.log("From database ", doc.bauturi);
-      var array = string.split(',');
-        Bauturi.find({"_id":array}, function(err, bautura){
+        Bauturi.find({"_id":doc.bauturi}, function(err, bautura){
          res.status(200).json(bautura);
         })
         //  console.log(listabauturi);
