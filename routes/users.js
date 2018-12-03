@@ -37,11 +37,12 @@ router.get("/:userId/bautura_comandata", (req,res) => {
 router.post("/login", (req,res) =>{
     const user = new Users({
         email: req.body.email,
-        prenume : req.body.prenume,
         parola: req.body.parola
     });
     Users.findOne({"email": user.email}).exec().then(doc=>{
-       res.send({"success":true, "message": doc});
+        
+        var id = doc._id;
+       res.send({"success":true, "message":id });
       })
       .catch(err => {
         console.log(err);
