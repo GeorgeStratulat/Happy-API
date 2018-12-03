@@ -13,7 +13,7 @@ var UserSchema = new Schema({
     // tip_abonament:  [{ type: mongoose.Schema.Types.ObjectId, ref:"Abonamente"}],
     bautura_zi: Boolean,
     // lista_bauturi:  [{ type: mongoose.Schema.Types.ObjectId, ref:"Bauturi"}],
-    lista_bauturi: String,
+    lista_bauturi: [{type: String}],
     parola: String
 });
 var Users = mongoose.model("Users", UserSchema);
