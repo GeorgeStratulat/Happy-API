@@ -30,7 +30,7 @@ app.use((req, res, next) => {
   // error.status = 404;
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+  res.setHeader('Access-Control-Allow-Origin', "*");
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -71,4 +71,5 @@ app.use("/abonament_user", Abonament_UserRoutes);
 
 
 app.listen(process.env.PORT || 4000);
+// app.listen(4000);
 console.log("Running a GraphQL API server at localhost:4000/graphql");

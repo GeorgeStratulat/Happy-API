@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Users = require ("../schema/users.js");
+const Abonamente = require("../schema/abonamente.js");
 
 router.get("/", (req,res)=>{
     Users.find().exec().then(docs=>{
@@ -39,8 +40,8 @@ router.post("/addUser", (req,res) =>{
         data_nastere: req.body.data_nastere,
         email: req.body.email,
         tip_abonament: req.body.tip_abonament,
-        bautura_zi: req.body.bautura_zi,
-        lista_bauturi: req.body.lista_bauturi,
+        bautura_zi: false,
+        lista_bauturi: [],
         parola:req.body.parola
     });
 
@@ -75,6 +76,27 @@ router.get("/:userId", (req,res) => {
       });
     
 });
+
+router.patch("/:userId/addBautura/:bauturaId", (req,res)=>{
+    const uid = req.params.userId;
+    const bid = req.params.bauturaId;
+    Users.update({_id: uid}, {$push:{
+        lista_bauturi: bid
+    }}).exec().then(result => {
+        console.log(result);
+        res.status(200).json({
+          message: "Employee Updated!"
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+
+});
+
 router.patch("/:userId", (req,res)=>{
     const id = req.params.userId;
     Abonamente.update({_id:id}, {$set:{

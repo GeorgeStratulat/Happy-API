@@ -4,10 +4,10 @@ const Abonamente = require("../schema/abonamente.js");
 
 var abonament_user_schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    user_id: [{ type: mongoose.Schema.Types.ObjectId, ref:"Users"}],
-    data_inceput: [{type:Date, default:Date.now}],
+    user_id: [{ type: String}],
+    data_inceput: {type:Date, default:Date.now},
     data_sfarsit: Date,
-    tip_abonament: [{type:mongoose.Schema.Types.ObjectId, ref:"Abonamente"}]
+    tip_abonament: String
 });
 var Abonament = mongoose.model("Abonament", abonament_user_schema);
 module.exports = Abonament;

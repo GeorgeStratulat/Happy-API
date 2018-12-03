@@ -4,9 +4,8 @@ var VenueSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     nume: String,
     locatie: String,
-    bauturi: String,
-    // bauturi: [{type:    mongoose.Schema.Types.ObjectId,
-    //             ref: "Bauturi"}],
+    
+    bauturi:[{type: String}],
     imagine: String,
     detalii: String
 });

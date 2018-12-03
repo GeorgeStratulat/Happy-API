@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Abonament_Users= require ("../schema/abonament_user.js");
+const Abonamente = require("../schema/abonamente.js");
 
 router.get("/", (req,res)=>{
     Abonament_Users.find().exec().then(docs=>{
@@ -16,14 +17,20 @@ router.get("/", (req,res)=>{
 });
 
 router.post("/addAbonament_User", (req,res) =>{
+    Abonamente.find({"_id":req.body.tip_abonament}, function(err, obiect){
     const abonament_user = new Abonament_Users({
         _id : mongoose.Types.ObjectId(),
         user_id: req.body.user_id,
     data_inceput: Date.now(),
-    data_sfarsit: req.body.data_sfarsit,
+    data_sfarsit: Date.now()  ,
     tip_abonament: req.body.tip_abonament
     });
 
+    console.log(obiect[0].numar_luni) ;
+    
+      var numar_luni = obiect[0].numar_luni;
+
+    abonament_user.data_sfarsit.setMonth(abonament_user.data_sfarsit.getMonth() + numar_luni);
     abonament_user.save().then(result=>{
         console.log(result);
         res.status(201).json({
@@ -37,6 +44,7 @@ router.post("/addAbonament_User", (req,res) =>{
             error:err
         });
     });
+})
 });
 
 router.get("/:abonament_UserId", (req,res) => {
