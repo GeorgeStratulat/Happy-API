@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Users = require ("../schema/users.js");
 const Abonamente = require("../schema/abonamente.js");
+const Bautura_Comandata = require("../schema/bautura_comandata.js");
 
 router.get("/", (req,res)=>{
     Users.find().exec().then(docs=>{
@@ -15,6 +16,23 @@ router.get("/", (req,res)=>{
       }); 
     })    
 });
+
+router.get("/:userId/bautura_comandata", (req,res) => {
+    const id = req.params.userId;
+    Users.findById(id).exec().then(doc=>{
+        console.log("From database ", doc);
+          Bautura_Comandata.find({"id_user":doc._id}, function(err, bautura){
+           res.status(200).json(bautura);
+          })
+          //  console.log(listabauturi);
+        
+      })
+      .catch(err => {
+        console.log("nu merge /getID");
+        // res.status(500).json({ error: err });
+      });
+    
+  });
 
 router.post("/login", (req,res) =>{
     const user = new Users({
