@@ -7,6 +7,7 @@ const UserRoutes = require("./routes/users");
 const BauturaRoutes = require("./routes/bautura");
 const VenueRoutes = require("./routes/venue");
 const Abonament_UserRoutes = require("./routes/abonament_user");
+const Bautura_ComandataRoutes = require("./routes/bautura_comandata");
 
 // create express app
 
@@ -53,6 +54,7 @@ app.use("/users", UserRoutes);
 app.use("/bautura", BauturaRoutes);
 app.use("/venue", VenueRoutes);
 app.use("/abonament_user", Abonament_UserRoutes);
+app.use("/bautura_comandata", Bautura_ComandataRoutes);
 
 
 
