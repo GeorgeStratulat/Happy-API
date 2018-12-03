@@ -1,34 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const Abonament_Users= require ("../schema/abonament_user.js");
+const Abonamente = require ('../schema/abonamente.js');
 
 router.get("/", (req,res)=>{
-    Abonament_Users.find().exec().then(docs=>{
-        console.log(docs);
-        res.status(200).json(docs);
-    }).catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      }); 
-    })    
-});
-
-router.post("/addAbonament_User", (req,res) =>{
-    const abonament_user = new Abonament_Users({
-        _id : mongoose.Types.ObjectId(),
-        user_id: req.body.user_id,
-    data_inceput: Date.now(),
-    data_sfarsit: req.body.data_sfarsit,
-    tip_abonament: req.body.tip_abonament
+    
+      Abonamente.find().exec().then(docs=>{
+          console.log(docs);
+          res.status(200).json(docs);
+      }).catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        }); 
+      })    
     });
 
-    abonament_user.save().then(result=>{
+router.post("/addAbonament", (req, res) =>{
+    const abonament = new Abonamente({
+        _id: new mongoose.Types.ObjectId(),
+        numar_bauturi: req.body.numar_bauturi,
+        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic
+    });
+    console.log(abonament);
+    
+    abonament.save().then(result=>{
         console.log(result);
         res.status(201).json({
             message:"Abonament salvat!",
-            AbonamentAdaugat: abonament_user
+            AbonamentAdaugat: abonament
         });
     })
     .catch(err=>{
@@ -37,11 +37,12 @@ router.post("/addAbonament_User", (req,res) =>{
             error:err
         });
     });
+    
 });
 
-router.get("/:abonament_UserId", (req,res) => {
-    const id = req.params.abonament_UserId;
-    Abonament_Users.findById(id).exec().then(doc=>{
+router.get("/:abonamentId", (req,res) => {
+    const id = req.params.abonamentId;
+    Abonamente.findById(id).exec().then(doc=>{
         console.log("From database ", doc);
         if(doc){
             res.status(200).json(doc);
@@ -55,12 +56,12 @@ router.get("/:abonament_UserId", (req,res) => {
       });
     
 });
-router.patch("/:abonament_UserId", (req,res)=>{
-    const id = req.params.abonament_UserId;
-    Abonament_Users.update({_id:id}, {$set:{
-        data_inceput: req.body.data_inceput,
-        data_sfarsit: req.body.data_sfarsit,
-        tip_abonament: req.body.tip_abonament
+
+router.patch("/:abonamentId", (req,res)=>{
+    const id = req.params.abonamentId;
+    Abonamente.update({_id:id}, {$set:{
+        numar_bauturi: req.body.numar_bauturi,
+        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic
     }
     })
     .exec()
@@ -78,9 +79,9 @@ router.patch("/:abonament_UserId", (req,res)=>{
     });
 });
 
-router.delete("/:abonament_UserId", (req,res) =>{
-    const id = req.params.abonament_UserId;
-    Abonament_Users.remove({ _id: id })
+router.delete("/:abonamentId", (req,res) =>{
+    const id = req.params.abonamentId;
+    Abonamente.remove({ _id: id })
     .exec()
       .then(result => {
         res.status(200).json({
@@ -94,5 +95,6 @@ router.delete("/:abonament_UserId", (req,res) =>{
         });
       });
 });
+
 
 module.exports = router;
