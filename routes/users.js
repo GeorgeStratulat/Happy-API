@@ -41,7 +41,7 @@ router.post("/login", (req,res) =>{
         parola: req.body.parola
     });
     Users.findOne({"email": user.email}).exec().then(doc=>{
-       res.send({"success":true, "message": user.email});
+       res.send({"success":true, "message": user._id});
       })
       .catch(err => {
         console.log(err);
