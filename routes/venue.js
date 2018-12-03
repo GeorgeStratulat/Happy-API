@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Venues = require ("../schema/venue.js");
+const Bauturi = require ("../schema/bautura.js");
 
 router.get("/", (req,res)=>{
     Venues.find().exec().then(docs=>{
@@ -57,6 +58,25 @@ router.get("/:venueId", (req,res) => {
     
 });
 
+router.get("/:venueId/bautura", (req,res) => {
+  const id = req.params.venueId;
+  Venues.findById(id).exec().then(doc=>{
+      console.log("From database ", doc.bauturi);
+      var array = string.split(',');
+        Bauturi.find({"_id":array}, function(err, bautura){
+         res.status(200).json(bautura);
+        })
+        //  console.log(listabauturi);
+      
+    })
+    .catch(err => {
+      console.log("nu merge /getID");
+      // res.status(500).json({ error: err });
+    });
+  
+});
+
+
 router.put("/:venueId", (req,res)=>{
     const id = req.params.venueId;
     Venues.update({_id:id}, {$set:{
@@ -82,11 +102,33 @@ router.put("/:venueId", (req,res)=>{
     });
 });
 
-router.patch("/:venueId/:venueLocatie", (req,res)=>{
+router.patch("/:venueId/locatie/:venueLocatie", (req,res)=>{
     const id = req.params.venueId;
     const locatieSchimbata = req.params.venueLocatie;
     Venues.update({_id:id}, {$set:{
         locatie: locatieSchimbata
+    }
+    })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.patch("/:venueId/descriere/:venueDescriere", (req,res)=>{
+    const id = req.params.venueId;
+    const descriereSchimbata = req.params.venueDescriere;
+    Venues.update({_id:id}, {$set:{
+        detalii: descriereSchimbata
     }
     })
     .exec()
