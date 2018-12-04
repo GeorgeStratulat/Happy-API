@@ -58,7 +58,7 @@ router.post("/addUser", (req,res) =>{
         nume: req.body.nume,
         data_nastere: req.body.data_nastere,
         email: req.body.email,
-        tip_abonament: req.body.tip_abonament,
+        tip_abonament: "",
         bautura_zi: false,
         lista_bauturi: [],
         parola:req.body.parola
