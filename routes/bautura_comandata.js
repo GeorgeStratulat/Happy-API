@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const BauturaComandata = require ("../schema/bautura_comandata");
+const Users = require("../schema/users")
 
 router.get("/", (req,res)=>{
     
@@ -37,6 +38,19 @@ router.post("/addComanda", (req, res) =>{
             error:err
         });
     });
+
+    Users.update({_id: req.body.id_user}, {$push:{
+        lista_bauturi: req.body.id_bautura
+    }}).exec().then(result => {
+        console.log(result);
+        
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
     
 });
 
