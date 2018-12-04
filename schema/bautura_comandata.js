@@ -5,7 +5,8 @@ var bauturaComandataSchema = new mongoose.Schema({
     id_user:String,
     timp_comanda: {type:Date, default:Date.now},
     imagine_bautura: String,
-    nume_bautura: String
+    nume_bautura: String,
+    locatie_bautura: String
 }); 
 var BauturaComandata = mongoose.model("BauturaComandata", bauturaComandataSchema);
 module.exports = BauturaComandata;

@@ -23,7 +23,8 @@ router.post("/addComanda", (req, res) =>{
         id_bautura: req.body.id_bautura,
         id_user: req.body.id_user,
         imagine_bautura: req.body.imagine_bautura,
-        nume_bautura: req.body.nume_bautura
+        nume_bautura: req.body.nume_bautura,
+        locatie_bautura: req.body.locatie_bautura
         
     });
     console.log(comanda);
