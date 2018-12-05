@@ -4,7 +4,8 @@ var abonamentSchema = new mongoose.Schema({
     numar_bauturi: Number,
     numar_bauturi_zilnic: Number,
     numar_luni: Number,
-    nume_abonament: String
+    nume_abonament: String,
+    imagine_abonament: String
 }); 
 mongoose.model("Abonamente", abonamentSchema);
 module.exports = mongoose.model("Abonamente", abonamentSchema);

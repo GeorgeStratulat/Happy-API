@@ -21,7 +21,8 @@ router.post("/addAbonament", (req, res) =>{
         _id: new mongoose.Types.ObjectId(),
         numar_bauturi: req.body.numar_bauturi,
         numar_bauturi_zilnic: req.body.numar_bauturi_zilnic,
-        nume_abonament: req.body.nume_abonament
+        nume_abonament: req.body.nume_abonament,
+        imagine_abonament: req.body.imagine_abonament
     });
     console.log(abonament);
     
@@ -63,7 +64,7 @@ router.patch("/:abonamentId", (req,res)=>{
     Abonamente.update({_id:id}, {$set:{
         numar_bauturi: req.body.numar_bauturi,
         numar_bauturi_zilnic: req.body.numar_bauturi_zilnic,
-        nume_abonament: req.body.nume_abonament
+        numar_luni: req.body.numar_luni
     }
     })
     .exec()
@@ -100,6 +101,27 @@ router.patch("/:abonamentId/nume_abonament", (req,res)=>{
         error: err
       });
     });
+});
+
+router.patch("/:abonamentId/imagine_abonament", (req,res)=>{
+  const id = req.params.abonamentId;
+  Abonamente.update({_id:id}, {$set:{
+      imagine_abonament: req.body.imagine_abonament
+  }
+  })
+  .exec()
+  .then(result => {
+    console.log(result);
+    res.status(200).json({
+      message: "Employee Updated!"
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
 });
 
 router.delete("/:abonamentId", (req,res) =>{

@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Abonament_Users= require ("../schema/abonament_user.js");
 const Abonamente = require("../schema/abonamente.js");
+const Users = require("../schema/users.js");
 
 router.get("/", (req,res)=>{
     Abonament_Users.find().exec().then(docs=>{
@@ -22,7 +23,7 @@ router.post("/addAbonament_User", (req,res) =>{
         _id : mongoose.Types.ObjectId(),
         user_id: req.body.user_id,
     data_inceput: Date.now(),
-    data_sfarsit: Date.now()  ,
+    data_sfarsit: Date.now(),
     tip_abonament: req.body.tip_abonament
     });
 
@@ -44,7 +45,24 @@ router.post("/addAbonament_User", (req,res) =>{
             error:err
         });
     });
+
+    Users.update({_id:req.body.user_id}, {$set:{
+        tip_abonament: abonament_user._id
+    }
+    })
+    .exec()
+    .then(result => {
+      console.log(result);
+      console.log("am adaugat abonament la user");
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 })
+
 });
 
 router.get("/user/:userId", (req,res) => {
