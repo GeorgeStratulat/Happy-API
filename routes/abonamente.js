@@ -20,7 +20,8 @@ router.post("/addAbonament", (req, res) =>{
     const abonament = new Abonamente({
         _id: new mongoose.Types.ObjectId(),
         numar_bauturi: req.body.numar_bauturi,
-        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic
+        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic,
+        nume_abonament: req.body.nume_abonament
     });
     console.log(abonament);
     
@@ -61,7 +62,8 @@ router.patch("/:abonamentId", (req,res)=>{
     const id = req.params.abonamentId;
     Abonamente.update({_id:id}, {$set:{
         numar_bauturi: req.body.numar_bauturi,
-        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic
+        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic,
+        nume_abonament: req.body.nume_abonament
     }
     })
     .exec()

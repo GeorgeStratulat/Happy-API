@@ -1,34 +1,41 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const Abonamente = require ('../schema/abonamente.js');
+const Abonament_Users= require ("../schema/abonament_user.js");
+const Abonamente = require("../schema/abonamente.js");
 
 router.get("/", (req,res)=>{
-    
-      Abonamente.find().exec().then(docs=>{
-          console.log(docs);
-          res.status(200).json(docs);
-      }).catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        }); 
-      })    
+    Abonament_Users.find().exec().then(docs=>{
+        console.log(docs);
+        res.status(200).json(docs);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      }); 
+    })    
+});
+
+router.post("/addAbonament_User", (req,res) =>{
+    Abonamente.find({"_id":req.body.tip_abonament}, function(err, obiect){
+    const abonament_user = new Abonament_Users({
+        _id : mongoose.Types.ObjectId(),
+        user_id: req.body.user_id,
+    data_inceput: Date.now(),
+    data_sfarsit: Date.now()  ,
+    tip_abonament: req.body.tip_abonament
     });
 
-router.post("/addAbonament", (req, res) =>{
-    const abonament = new Abonamente({
-        _id: new mongoose.Types.ObjectId(),
-        numar_bauturi: req.body.numar_bauturi,
-        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic
-    });
-    console.log(abonament);
+    console.log(obiect[0].numar_luni) ;
     
-    abonament.save().then(result=>{
+      var numar_luni = obiect[0].numar_luni;
+
+    abonament_user.data_sfarsit.setMonth(abonament_user.data_sfarsit.getMonth() + numar_luni);
+    abonament_user.save().then(result=>{
         console.log(result);
         res.status(201).json({
             message:"Abonament salvat!",
-            AbonamentAdaugat: abonament
+            AbonamentAdaugat: abonament_user
         });
     })
     .catch(err=>{
@@ -37,12 +44,21 @@ router.post("/addAbonament", (req, res) =>{
             error:err
         });
     });
-    
+})
 });
 
-router.get("/:abonamentId", (req,res) => {
-    const id = req.params.abonamentId;
-    Abonamente.findById(id).exec().then(doc=>{
+router.get("/user/:userId", (req,res) => {
+    const uid = req.params.userId;
+    Abonament_Users.find({"user_id":uid}, function(err, obiect){
+        res.status(200).json(obiect);
+    
+    
+});
+});
+
+router.get("/:abonament_UserId", (req,res) => {
+    const id = req.params.abonament_UserId;
+    Abonament_Users.findById(id).exec().then(doc=>{
         console.log("From database ", doc);
         if(doc){
             res.status(200).json(doc);
@@ -57,11 +73,12 @@ router.get("/:abonamentId", (req,res) => {
     
 });
 
-router.patch("/:abonamentId", (req,res)=>{
-    const id = req.params.abonamentId;
-    Abonamente.update({_id:id}, {$set:{
-        numar_bauturi: req.body.numar_bauturi,
-        numar_bauturi_zilnic: req.body.numar_bauturi_zilnic
+router.patch("/:abonament_UserId", (req,res)=>{
+    const id = req.params.abonament_UserId;
+    Abonament_Users.update({_id:id}, {$set:{
+        data_inceput: req.body.data_inceput,
+        data_sfarsit: req.body.data_sfarsit,
+        tip_abonament: req.body.tip_abonament
     }
     })
     .exec()
@@ -79,9 +96,9 @@ router.patch("/:abonamentId", (req,res)=>{
     });
 });
 
-router.delete("/:abonamentId", (req,res) =>{
-    const id = req.params.abonamentId;
-    Abonamente.remove({ _id: id })
+router.delete("/:abonament_UserId", (req,res) =>{
+    const id = req.params.abonament_UserId;
+    Abonament_Users.remove({ _id: id })
     .exec()
       .then(result => {
         res.status(200).json({
@@ -95,6 +112,5 @@ router.delete("/:abonamentId", (req,res) =>{
         });
       });
 });
-
 
 module.exports = router;
