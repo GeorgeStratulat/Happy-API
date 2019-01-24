@@ -116,6 +116,26 @@ router.patch("/:userId/addBautura/:bauturaId", (req,res)=>{
 
 });
 
+router.patch("/:userId/addBautura/:bauturaId", (req,res)=>{
+  const uid = req.params.userId;
+  const bid = req.params.bauturaId;
+  Users.update({_id: uid}, {$pull:{
+      lista_bauturi: bid
+  }}).exec().then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+
+});
+
 router.patch("/:userId", (req,res)=>{
     const id = req.params.userId;
     Abonamente.update({_id:id}, {$set:{
