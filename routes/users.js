@@ -116,7 +116,7 @@ router.patch("/:userId/addBautura/:bauturaId", (req,res)=>{
 
 });
 
-router.patch("/:userId/addBautura/:bauturaId", (req,res)=>{
+router.patch("/:userId/deleteBautura/:bauturaId", (req,res)=>{
   const uid = req.params.userId;
   const bid = req.params.bauturaId;
   Users.update({_id: uid}, {$pull:{
@@ -124,7 +124,7 @@ router.patch("/:userId/addBautura/:bauturaId", (req,res)=>{
   }}).exec().then(result => {
       console.log(result);
       res.status(200).json({
-        message: "Employee Updated!"
+        message: "Employee Updated! Drink deleted: " + bid
       });
     })
     .catch(err => {
