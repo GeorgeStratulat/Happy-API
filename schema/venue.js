@@ -6,7 +6,9 @@ var VenueSchema = new mongoose.Schema({
     locatie: String,
     bauturi:[{type: String}],
     imagine: [{type: String}],
-    detalii: String
+    detalii: String,    
+    coordonate:[{type: String}],
+    orar:[{type: String}]
 });
 var Venue = mongoose.model("Venue", VenueSchema);
 module.exports = Venue;
