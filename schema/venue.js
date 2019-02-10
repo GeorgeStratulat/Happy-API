@@ -4,9 +4,8 @@ var VenueSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     nume: String,
     locatie: String,
-    
     bauturi:[{type: String}],
-    imagine: String,
+    imagine: [{type: String}],
     detalii: String
 });
 var Venue = mongoose.model("Venue", VenueSchema);
