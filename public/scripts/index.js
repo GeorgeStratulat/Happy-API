@@ -10,6 +10,9 @@ var btn = document.getElementById("myBtn");
 btn.onclick = function() {
     modal.style.display = "block";
 }
+
+
+
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
@@ -22,6 +25,52 @@ span.onclick = function() {
 $(document).ready(function() {
     jQuery.support.cors = true;
     var bautura = [];
+
+    $('input[type=file]').on("change", function() {
+
+        var $files = $(this).get(0).files;
+    
+        if ($files.length) {
+    
+          // Reject big files
+          if ($files[0].size > $(this).data("max-size") * 1024) {
+            console.log("Please select a smaller file");
+            return false;
+          }
+    
+          // Begin file upload
+          console.log("Uploading file to Imgur..");
+    
+          // Replace ctrlq with your own API key
+          var apiUrl = 'https://api.imgur.com/3/image';
+          var apiKey = '16086a74217d3c0';
+    
+          var settings = {
+            async: false,
+            crossDomain: true,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            url: apiUrl,
+            headers: {
+              Authorization: 'Client-ID ' + apiKey,
+              Accept: 'application/json'
+            },
+            mimeType: 'multipart/form-data'
+          };
+    
+          var formData = new FormData();
+          formData.append("image", $files[0]);
+          settings.data = formData;
+    
+          // Response contains stringified JSON
+          // Image URL available at response.data.link
+          $.ajax(settings).done(function(response) {
+            console.log(response);
+          });
+    
+        }
+      });
 
     $.ajax({
         type: "GET",
@@ -53,7 +102,6 @@ $(document).ready(function() {
                   
                   
                   $("table tbody").append("<tr>"+"<td>"+value.nume+"</td>"
-                                 +"<td>"+value.cantitate+"</td>"
                                  +"<td>"+value.tip+"</td>"
                                  +"<td>"+value.locatie+"</td>"
                                  +"<td><a href='"+value.imagine+"'>Click pt imagine</a></td>"
@@ -129,6 +177,8 @@ $(document).ready(function() {
                                                                 $("#postResultDiv").html("<p>" + 
                                                                     "Post Successfully! <br>" +
                                                                     "--->" + JSON.stringify(customer)+ "</p>"); 
+                                                                    modal.style.display = "none";
+                                                                location.reload();
                                                             },
                                                             error : function(e) {
                                                                 alert("Error!")

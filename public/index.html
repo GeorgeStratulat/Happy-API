@@ -20,17 +20,20 @@
       <p id="locatieVenue" contenteditable="false"></p>
       <label for="detalii">Detalii</label><br/>
       <textarea readonly rows="6" cols="70"></textarea><br/>
-      <button style="margin-top: 0.5em;" type="button" class="btn btn-primary">Edit detalii</button><br/>
+      <button style="margin-top: 0.5em;" type="button" class="btn btn-primary">Edit</button><br/>
       <button id="editLocatie">Enable content of p to be editable!</button>
       <script type="text/javascript" src="./scripts/EditDetalii.js"></script>
 
-      <script  type="text/javascript" src="scripts/EditLocatie.js"></script>
 
 
 
 <br/>
 
       <button id="myBtn">Open Modal</button>
+
+      <form id="imgur">
+        <input type="file" class="imgur" accept="image/*" data-max-size="50000"/>
+      </form>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -95,13 +98,20 @@
 
 </div>
 
+<div id="locatieModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map"></div>
+      </div>
+</div>
+
 
       <table class="table" id="personDataTable">
         <thead>
         
         <tr>
               <th>nume</th>
-              <th>cantitate</th>
               <th>tip</th>
               <th>locatie</th>
               <th>imagine</th>
@@ -114,8 +124,9 @@
     <script type="text/javascript" src="scripts/AddDrink.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="jquery.editable.min.js"></script>
-
-
+    <script  type="text/javascript" src="scripts/EditLocatie.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdUUSFpTD78znhXdJfb9dMV9OWouq-iNI&libraries=places&callback=initAutocomplete"
+    async defer></script>
 
   </body>
 </html>
