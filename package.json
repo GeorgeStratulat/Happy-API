@@ -2,7 +2,7 @@
   "name": "instagram-clone-server",
   "version": "1.0.0",
   "description": "GraphQL server for Happy Hour Application",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +17,8 @@
     "graphql": "^0.13.2",
     "mongoose": "^5.3.11",
     "pusher": "^1.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
   }
 }

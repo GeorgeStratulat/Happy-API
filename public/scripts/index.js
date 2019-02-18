@@ -22,24 +22,25 @@ span.onclick = function() {
 $(document).ready(function() {
     jQuery.support.cors = true;
     var bautura = [];
+
     $.ajax({
         type: "GET",
-        url:"http://127.0.0.1:4000/venue/5bf6f6a2bb7a60001617ef69",
+        url:"https://radiant-beyond-44987.herokuapp.com/venue",
         data:"{}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         cache: false,
         success: function (data){
             console.log(data);
-            $("#numeVenue").text(data.nume);
-            $("#locatieVenue").text(data.locatie);
+            $("#numeVenue").text(data[0].nume);
+            $("#locatieVenue").text(data[0].locatie);
         }
     });
 
     $.ajax(
     {
          type: "GET",
-         url: "http://127.0.0.1:4000/bautura",
+         url: "https://radiant-beyond-44987.herokuapp.com/bautura",
          data: "{}",
          contentType: "application/json; charset=utf-8",
          dataType: "json",
@@ -57,7 +58,7 @@ $(document).ready(function() {
                                  +"<td>"+value.locatie+"</td>"
                                  +"<td><a href='"+value.imagine+"'>Click pt imagine</a></td>"
                                  +"<td><button class='editButton'>Edit</button></td>"
-                                 +"<td><button class='deleteButton'>Sterge</button></td>"+"</tr>" )
+                                 +"<td><button class='deleteButton'>Sterge</button></td>"+"</tr>" );
 
 
                                   var modal = document.getElementById('editModal');
@@ -71,7 +72,7 @@ $(document).ready(function() {
                                         var result = confirm("Want to delete?");
                                         if (result) {
                                             $.ajax({
-                                                url: "http://127.0.0.1:4000/bautura/"+bautura[index]._id,
+                                                url: "https://radiant-beyond-44987.herokuapp.com/bautura/"+bautura[index]._id,
                                                 type: 'DELETE',
                                                 success : function(customer) {
                                                     
@@ -118,7 +119,7 @@ $(document).ready(function() {
                                                 $.ajax({
                                                             type : "PUT",
                                                             contentType : "application/json",
-                                                            url : "http://127.0.0.1:4000/bautura/"+bautura[index]._id,
+                                                            url : "https://radiant-beyond-44987.herokuapp.com/bautura/"+bautura[index]._id,
                                                             
                                                             data : JSON.stringify(formData),
                                                             dataType : 'json',

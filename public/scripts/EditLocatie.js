@@ -15,7 +15,7 @@
                     type: "PATCH",
                     contentType: "application/json",
                     crossDomain: true,
-                    url:"http://127.0.0.1:4000/venue/5bf6f6a2bb7a60001617ef69/"+$("#locatieVenue").val(),
+                    url:"https://radiant-beyond-44987.herokuapp.com/venue/5bf6f6a2bb7a60001617ef69/"+$("#locatieVenue").val(),
                     data: JSON.stringify(formData),
                     dataType: "json",
                     success : function(customer) {
