@@ -8,7 +8,7 @@ var VenueSchema = new mongoose.Schema({
     imagine: [{type: String}],
     detalii: String,    
     coordonate:[{type: String}],
-    orar:[{type: String}]
+    orar:[{type: String}]   
 });
 var Venue = mongoose.model("Venue", VenueSchema);
 module.exports = Venue;

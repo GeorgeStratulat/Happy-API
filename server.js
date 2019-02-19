@@ -8,6 +8,8 @@ const BauturaRoutes = require("./routes/bautura");
 const VenueRoutes = require("./routes/venue");
 const Abonament_UserRoutes = require("./routes/abonament_user");
 const Bautura_ComandataRoutes = require("./routes/bautura_comandata");
+const OfertaRoutes = require("./routes/oferta");
+const PerioadaRoutes = require("./routes/perioada");
 
 // create express app
 
@@ -55,6 +57,8 @@ app.use("/bautura", BauturaRoutes);
 app.use("/venue", VenueRoutes);
 app.use("/abonament_user", Abonament_UserRoutes);
 app.use("/bautura_comandata", Bautura_ComandataRoutes);
+app.use("/oferta", OfertaRoutes);
+app.use("/perioada", PerioadaRoutes);
 
 
 
