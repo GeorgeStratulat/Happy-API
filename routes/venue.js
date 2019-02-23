@@ -103,9 +103,11 @@ router.put("/:venueId", (req,res)=>{
 
 router.patch("/:venueId/locatie/", (req,res)=>{
     const id = req.params.venueId;
-    Venues.update({_id: id}, {$push:{
-      imagine : req.body.id_bautura
-  }})
+    const locatieSchimbata = req.params.venueLocatie;
+    Venues.update({_id:id}, {$set:{
+        locatie: req.body.locatie
+    }
+    })
     .exec()
     .then(result => {
       console.log(result);
@@ -143,10 +145,9 @@ router.patch("/:venueId/descriere", (req,res)=>{
 });
 router.patch("/:venueId/addImagine", (req,res)=>{
   const id = req.params.venueId;
-  Venues.update({_id:id}, {$set:{
-      imagine: req.body.detalii
-  }
-  })
+  Venues.update({_id: id}, {$push:{
+    imagine: req.body.imagineAdaugata
+}})
   .exec()
   .then(result => {
     console.log(result);
