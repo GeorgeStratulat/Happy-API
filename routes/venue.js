@@ -103,11 +103,9 @@ router.put("/:venueId", (req,res)=>{
 
 router.patch("/:venueId/locatie/", (req,res)=>{
     const id = req.params.venueId;
-    const locatieSchimbata = req.params.venueLocatie;
-    Venues.update({_id:id}, {$set:{
-        locatie: req.body.locatie
-    }
-    })
+    Venues.update({_id: id}, {$push:{
+      imagine : req.body.id_bautura
+  }})
     .exec()
     .then(result => {
       console.log(result);
@@ -142,6 +140,26 @@ router.patch("/:venueId/descriere", (req,res)=>{
         error: err
       });
     });
+});
+router.patch("/:venueId/addImagine", (req,res)=>{
+  const id = req.params.venueId;
+  Venues.update({_id:id}, {$set:{
+      imagine: req.body.detalii
+  }
+  })
+  .exec()
+  .then(result => {
+    console.log(result);
+    res.status(200).json({
+      message: "Employee Updated!"
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
 });
 
 router.delete("/:venueId", (req,res) =>{
