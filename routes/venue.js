@@ -123,11 +123,10 @@ router.patch("/:venueId/locatie/:venueLocatie", (req,res)=>{
     });
 });
 
-router.patch("/:venueId/descriere/:venueDescriere", (req,res)=>{
+router.patch("/:venueId/descriere/", (req,res)=>{
     const id = req.params.venueId;
-    const descriereSchimbata = req.params.venueDescriere;
     Venues.update({_id:id}, {$set:{
-        detalii: descriereSchimbata
+        detalii: req.body.detalii
     }
     })
     .exec()
