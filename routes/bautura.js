@@ -82,6 +82,27 @@ router.put("/:bauturaId", (req,res)=>{
     });
 });
 
+router.patch("/:bauturaId/imagine", (req,res)=>{
+    const id = req.params.bauturaId;
+    Bauturi.update({_id:id}, {$set:{
+        imagine: req.body.imagine
+    }
+    })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
 router.delete("/:bauturaId", (req,res) =>{
     const id = req.params.bauturaId;
     Bauturi.remove({ _id: id })
