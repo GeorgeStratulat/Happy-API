@@ -101,11 +101,11 @@ router.put("/:venueId", (req,res)=>{
     });
 });
 
-router.patch("/:venueId/locatie/:venueLocatie", (req,res)=>{
+router.patch("/:venueId/locatie/", (req,res)=>{
     const id = req.params.venueId;
     const locatieSchimbata = req.params.venueLocatie;
     Venues.update({_id:id}, {$set:{
-        locatie: locatieSchimbata
+        locatie: req.body.locatie
     }
     })
     .exec()
@@ -123,7 +123,7 @@ router.patch("/:venueId/locatie/:venueLocatie", (req,res)=>{
     });
 });
 
-router.patch("/:venueId/descriere/", (req,res)=>{
+router.patch("/:venueId/descriere", (req,res)=>{
     const id = req.params.venueId;
     Venues.update({_id:id}, {$set:{
         detalii: req.body.detalii
