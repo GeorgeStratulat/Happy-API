@@ -167,10 +167,10 @@ router.patch("/:venueId/descriere", (req,res)=>{
 router.patch("/:venueId/addBautura", (req,res)=>{
   id = req.params.venueId;
   
-  Venue.update(
-    {_id:id}, {
+  Venues.update(
+    {_id:id}, {$push:{
     bauturi: req.body.bautura_id
-}
+}}
 )
 .exec()
 .then(result => {
