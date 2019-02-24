@@ -25,47 +25,6 @@ router.post("/:venueId/addOferta", (req,res) =>{
         zile: req.body.zile
     })
     perioada.save().then(result=>{
-        const oferta = new Oferte({
-            _id : mongoose.Types.ObjectId(),
-            nume: req.body.nume,
-            locatie_id: req.body.locatie_id,
-            numar_bauturi: req.body.numar_bauturi,
-            bautura_id: req.body.bautura_id,
-            tip_oferta: req.body.tip_oferta,
-            perioada: perioada._id
-    });
-
-    oferta.save().then(result=>{
-        Venues.update(
-            {_id:id}, {$push:{
-            oferte: oferta._id
-        }}
-        )
-        .exec()
-        .then(result => {
-          console.log(result);
-          res.status(200).json({
-            message: "Employee Updated!"
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({
-            error: req.body.bautura_id
-          });
-        });
-        console.log(result);
-        res.status(201).json({
-            message:"Oferta salvata!",
-            OfertaAdaugat: oferta
-        });
-    })
-    .catch(err=>{
-        console.log(err);
-        res.status(500).json({
-            error:"De aici 2"
-        });
-    });
         console.log(result);
         res.status(201).json({
             message:"Perioada salvata!",
@@ -79,9 +38,48 @@ router.post("/:venueId/addOferta", (req,res) =>{
         });
     });
 
-    
+    const oferta = new Oferte({
+            _id : mongoose.Types.ObjectId(),
+            nume: req.body.nume,
+            locatie_id: req.body.locatie_id,
+            numar_bauturi: req.body.numar_bauturi,
+            bautura_id: req.body.bautura_id,
+            tip_oferta: req.body.tip_oferta,
+            perioada: perioada._id
+    });
 
-   
+    oferta.save().then(result=>{
+        console.log(result);
+        res.status(201).json({
+            message:"Oferta salvata!",
+            OfertaAdaugat: oferta
+        });
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error:"De aici 2"
+        });
+    });
+
+    Venues.update(
+        {_id:id}, {$push:{
+        oferte: oferta._id
+    }}
+    )
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: req.body.bautura_id
+      });
+    });
 });
 
 router.get("/:ofertaId", (req,res) => {
