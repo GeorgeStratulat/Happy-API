@@ -61,6 +61,23 @@ router.get("/:venueId", (req,res) => {
     
 });
 
+router.get("/:venueId/imagini", (req,res) => {
+  const id = req.params.venueId;
+  Imagine_Venues.find({"venue":id}).exec().then(doc=>{
+      console.log("From database ", doc);
+      if(doc){
+          res.status(200).json(doc);
+      } else{
+          res.status(404).json({ message: "No employee found with specified id" });
+      }
+    })
+    .catch(err => {
+      console.log("nu merge /getID");
+      res.status(500).json({ error: err });
+    });
+  
+});
+
 router.get("/:venueId/bautura", (req,res) => {
   const id = req.params.venueId;
   Venues.findById(id).exec().then(doc=>{
