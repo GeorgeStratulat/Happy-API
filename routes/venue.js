@@ -163,6 +163,30 @@ router.patch("/:venueId/descriere", (req,res)=>{
       });
     });
 });
+
+router.patch("/:venueId/addBautura", (req,res)=>{
+  id = req.params.venueId;
+  
+  Venue.update(
+    {_id:id}, {$push:{
+    bauturi: req.body.bautura_id
+}}
+)
+.exec()
+.then(result => {
+  console.log(result);
+  res.status(200).json({
+    message: "Employee Updated!"
+  });
+})
+.catch(err => {
+  console.log(err);
+  res.status(500).json({
+    error: err
+  });
+});
+})
+
 router.patch("/:venueId/addImagine", (req,res)=>{
   const id = req.params.venueId;
 
@@ -252,27 +276,8 @@ router.post("/:venueId/:bauturaId", (req, res) =>{
             res.status(404).json({message: "No drink found"});
         }
     }).catch(err=>{console.log(err); res.status.json({error: err})})
-    
-    Venue.update(
-        {_id:id}, {
-        bauturi: bautura._id
-    }
-    )
-    .exec()
-    .then(result => {
-      console.log(result);
-      res.status(200).json({
-        message: "Employee Updated!"
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-
-
 });
+
+
 
 module.exports = router;
