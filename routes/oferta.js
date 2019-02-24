@@ -63,7 +63,7 @@ router.post("/:venueId/addOferta", (req,res) =>{
     });
 
     Venues.update(
-        {_id:id}, {$push:{
+        {_id:req.body.locatie_id}, {$push:{
         oferte: oferta._id
     }}
     )
