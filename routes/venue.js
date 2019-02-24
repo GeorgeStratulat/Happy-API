@@ -163,6 +163,26 @@ router.patch("/:venueId/addImagine", (req,res)=>{
   });
 });
 
+router.patch("/:venueId/deleteImagine", (req,res)=>{
+  const id = req.params.venueId;
+  Venues.update({_id: id}, {$pull:{
+    imagine: req.body.imagineAdaugata
+}})
+  .exec()
+  .then(result => {
+    console.log(result);
+    res.status(200).json({
+      message: "Employee Updated!"
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
+});
+
 router.delete("/:venueId", (req,res) =>{
     const id = req.params.venueId;
     Venues.remove({ _id: id })
