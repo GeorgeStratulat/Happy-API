@@ -182,7 +182,7 @@ router.patch("/:venueId/addBautura", (req,res)=>{
 .catch(err => {
   console.log(err);
   res.status(500).json({
-    error: err
+    error: req.body.bautura_id
   });
 });
 })
