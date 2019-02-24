@@ -169,7 +169,7 @@ router.patch("/:venueId/addImagine", (req,res)=>{
 });
 
   Venues.update({_id: id}, {$push:{
-    imagine: req.body.imagineAdaugata
+    imagine: imagine_venue._id
 }})
   .exec()
   .then(result => {
