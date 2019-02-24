@@ -20,8 +20,6 @@ router.post("/addBautura", (req,res) =>{
         
             _id : mongoose.Types.ObjectId(),
             nume: req.body.nume,
-            cantitate: req.body.cantitate,
-            tip: req.body.tip,
             locatie: req.body.locatie,
             imagine: req.body.imagine
     });
@@ -62,8 +60,6 @@ router.put("/:bauturaId", (req,res)=>{
     Bauturi.update(
         {_id:id}, {
         nume: req.body.nume,
-        cantitate: req.body.cantitate,
-        tip: req.body.tip,
         locatie: req.body.locatie,
     }
     )
