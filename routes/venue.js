@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Venues = require ("../schema/venue.js");
 const Bauturi = require ("../schema/bautura.js");
+const Imagine_Venues = require("../schema/imagine_venue.js");
 
 router.get("/", (req,res)=>{
     Venues.find().exec().then(docs=>{
@@ -26,19 +27,21 @@ router.post("/addVenue", (req,res) =>{
     detalii: req.body.detalii
     });
 
+
+   
     venue.save().then(result=>{
-        console.log(result);
-        res.status(201).json({
-            message:"Venue salvat!",
-            VenueAdaugat: venue
-        });
-    })
-    .catch(err=>{
-        console.log(err);
-        res.status(500).json({
-            error:err
-        });
-    });
+      console.log(result);
+      res.status(201).json({
+          message:"Venue salvat!",
+          VenueAdaugat: venue
+      });
+  })
+  .catch(err=>{
+      console.log(err);
+      res.status(500).json({
+          error:err
+      });
+  });
 });
 
 router.get("/:venueId", (req,res) => {
@@ -145,6 +148,26 @@ router.patch("/:venueId/descriere", (req,res)=>{
 });
 router.patch("/:venueId/addImagine", (req,res)=>{
   const id = req.params.venueId;
+
+  const imagine_venue = new Imagine_Venues({
+    _id: mongoose.Types.ObjectId(),
+    url: req.body.imagineAdaugata,
+    venue: id,
+    order: 1});
+  imagine_venue.save().then(result=>{
+    console.log(result);
+    res.status(201).json({
+        message:"Imagine  venuesalvat!",
+        ImagineAdaugat: imagine_venue
+    });
+})
+.catch(err=>{
+    console.log(err);
+    res.status(500).json({
+        error:err
+    });
+});
+
   Venues.update({_id: id}, {$push:{
     imagine: req.body.imagineAdaugata
 }})
