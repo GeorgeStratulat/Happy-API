@@ -17,6 +17,23 @@ router.get("/", (req,res)=>{
     })    
 });
 
+router.get("/:venueId", (req,res) => {
+    const id = req.params.venueId;
+    Oferte.find({"venue":id}).exec().then(doc=>{
+        console.log("From database ", doc);
+        if(doc){
+            res.status(200).json(doc);
+        } else{
+            res.status(404).json({ message: "No employee found with specified id" });
+        }
+      })
+      .catch(err => {
+        console.log("nu merge /getID");
+        res.status(500).json({ error: err });
+      });
+    
+  });
+
 router.patch("/activeazaOferta/:ofertaId", (req,res)=>{
     const id = req.params.ofertaId;
     Venues.update({_id:id}, {$set:{
