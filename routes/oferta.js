@@ -45,7 +45,8 @@ router.post("/:venueId/addOferta", (req,res) =>{
             numar_bauturi: req.body.numar_bauturi,
             bautura_id: req.body.bautura_id,
             tip_oferta: req.body.tip_oferta,
-            perioada: perioada._id
+            perioada: perioada._id,
+            active: false
     });
 
     oferta.save().then(result=>{
@@ -107,7 +108,8 @@ router.put("/:ofertaId", (req,res)=>{
             numar_bauturi: req.body.numar_bauturi,
             bautura_id: req.body.bautura_id,
             tip_oferta: req.body.tip_oferta,
-            perioada: req.body.perioada
+            perioada: req.body.perioada,
+            active: req.body.active
     }
     )
     .exec()
