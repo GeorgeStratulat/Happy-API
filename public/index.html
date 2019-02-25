@@ -7,6 +7,7 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
 
@@ -15,12 +16,24 @@
     <div class="container">
 
       <h2 id="numeVenue"></h2>
-
-      <label for="adresa">Adresa</label>
+      <label for="imagini">Imagini:</label>
+      <div id="container-imagini">
+          <ul id="imagini-sortable">
+              
+            </ul>
+      </div>
+      <form id="imgur">
+          <input id="uploadImagineVenue" type="file" class="imgur" accept="image/*" data-max-size="50000"/>
+        </form>
+        <input type="hidden" id="uploadImagineVenueUrl">
+        <button id="addImagineVenue" type="button" class="btn btn-primary">Adauga</button><br/>
+      
+      <label for="adresa">Adresa:</label>
       <p id="locatieVenue" contenteditable="false"></p>
-      <label for="detalii">Detalii</label><br/>
-      <textarea readonly rows="6" cols="70"></textarea><br/>
-      <button style="margin-top: 0.5em;" type="button" class="btn btn-primary">Edit</button><br/>
+      <label for="detalii">Detalii:</label><br/>
+      <textarea id="detalii" readonly rows="6" cols="70"></textarea><br/>
+      <button id='editDetaliiButton' style="margin-top: 0.5em;" type="button"  class="btn btn-primary"><span class="ui-button-text">Edit</span>
+      </button><br/>
       <button id="editLocatie">Enable content of p to be editable!</button>
       <script type="text/javascript" src="./scripts/EditDetalii.js"></script>
 
@@ -36,97 +49,177 @@
       </form>
 
 <!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
+<div id="addBauturaModal" class="modal"> 
+
   <div class="modal-content">
-    <span class="close" >&times;</span>
+    <span id="closeAddBauturaModal" class="close" >&times;</span>
       <form id="AddBauturaForm">
         <div class="form-group">
           <input type="hidden" id="id"/>
         <label for="nume">Nume bautura:</label>
-        <input type="text" class="form-control" id="nume" placeholder="Introduceti numele bauturii"/>
+        <input type="text" class="form-control" id="numeBauturaAdd" placeholder="Introduceti numele bauturii"/>
         </div>
-        <div class="form-group">
-        <label for="cantitate">Cantitate:</label>
-        <input type="text" class="form-control" id="cantitate" placeholder="Introduceti cantitatea (litri)"/>
-            </div>
-            <div class="form-group">
-                  <label for="tip">Tip bautura:</label>
-                  <input type="text" class="form-control" id="tip" placeholder="Introduceti tipul bauturii"/>
-                </div>
-              <div class="form-group">
-                      <label for="locatie">locatie bautura:</label>
-                      <input type="text" class="form-control" id="locatie" placeholder="Introduceti locatia bauturii"/>
-                    </div>
                     <div class="form-group">
-                          <label for="imagine">imagine bautura:</label>
-                          <input type="text" class="form-control" id="imagine" placeholder="Introduceti imaginea bauturii (link url)"/>
+                          <label for="imagine">Imagine bautura:</label>
+                          <form id="imgur">
+                              <input type="hidden" id="uploadImagineBauturaUrl">
+                              <input id="uploadImagineBautura" type="file" class="imgur" accept="image/*" data-max-size="50000"/>
+                            </form>
                         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button id="addBauturaButton" class="btn btn-default">Submit</button>
       </form>
       </div>
 </div>
 
-<div id="editModal" class="modal">
+<div id="addOfertaModal" class="modal"> 
+
+    <div class="modal-content">
+      <span id="closeAddOfertaModal" class="close" >&times;</span>
+        <form id="AddOfertaForm">
+          <div class="form-group">
+            <input type="hidden" id="id"/>
+          <label for="nume">Nume oferta:</label>
+          <input type="text" class="form-control" id="numeOfertaAdd" placeholder="Introduceti numele ofertei"/>
+          </div>
+          <div class="form-group">
+            <label for="numar_bauturi">Numar bauturi:</label>
+            <input type="text" class="form-control" id="numarBauturiOfertaAdd" placeholder="Cate bauturi?"/>
+          </div>
+          <div class="form-group">
+              <label for="bautura_select">Bautura:</label>
+              <select class="form-control" id="BauturaOfertaAdd">
+                </select>            
+              </div>
+              <div class="form-group">
+                  <label for="tip_oferta">Tip oferta:</label>
+                  <input type="text" class="form-control" id="TipOfertaAdd" placeholder="Ce fel de oferta?"/>
+                </div>   
+              <div class="form-group">
+                  <label for="tip_oferta">Selectati zilele:</label>
+                  <br/>
+                  <label class="checkbox-inline">
+                      <input type="checkbox" value="Luni" class="check-day">Luni
+                    </label>
+                    <label class="checkbox-inline">
+                      <input style="margin-left: 1em;" type="checkbox" value="Marti" class="check-day">Marti
+                    </label>
+                    <label class="checkbox-inline">
+                      <input style="margin-left: 1em;" type="checkbox" value="Miercuri" class="check-day">Miercuri
+                    </label>
+                    <label class="checkbox-inline">
+                        <input style="margin-left: 1em;" type="checkbox" value="Joi" class="check-day">Joi
+                      </label>
+                      <label class="checkbox-inline">
+                          <input style="margin-left: 1em;" type="checkbox" value="Vineri" class="check-day">Vineri
+                        </label>
+                        <label class="checkbox-inline">
+                            <input style="margin-left: 1em;" type="checkbox" value="Sambata" class="check-day">Sambata
+                          </label>
+                          <label class="checkbox-inline">
+                              <input style="margin-left: 1em;" type="checkbox" value="Duminica" class="check-day">Duminica
+                            </label>
+              <div class="form-group">
+                <label>Alegeti intre ce ore</label>
+                <input id="ora_inceput" type="time" > <input id="ora_sfarsit" type="time">
+              </div>
+              </div>
+          <button id="addOfertaButton" type="button" class="btn btn-default">Submit</button>
+        </form>
+        </div>
+  </div>
+
+<div id="editModal" class="modal" >
   <!-- Modal content -->
-  <div class="modal-content">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 50%; height: 50%;">
     <span class="close" id="closeEdit">&times;</span>
       <form id="EditBauturaForm">
         <div class="form-group">
         <label for="nume">Nume bautura:</label>
         <input type="text" class="form-control" id="numeEdit" placeholder="Introduceti numele bauturii"/>
         </div>
-        <div class="form-group">
-        <label for="cantitate">Cantitate:</label>
-        <input type="text" class="form-control" id="cantitateEdit" placeholder="Introduceti cantitatea (litri)"/>
-            </div>
-            <div class="form-group">
-                  <label for="tip">Tip bautura:</label>
-                  <input type="text" class="form-control" id="tipEdit" placeholder="Introduceti tipul bauturii"/>
-                </div>
-              <div class="form-group">
-                      <label for="locatie">locatie bautura:</label>
-                      <input type="text" class="form-control" id="locatieEdit" placeholder="Introduceti locatia bauturii"/>
-                    </div>
                     <div class="form-group">
-                          <label for="imagine">imagine bautura:</label>
-                          <input type="text" class="form-control" id="imagineEdit" placeholder="Introduceti imaginea bauturii (link url)"/>
+                          <label for="imagine">Imagine bautura:</label>
+                          <!-- <input type="text" class="form-control" id="imagineEdit" placeholder="Introduceti imaginea bauturii (link url)"/> -->
                         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+                        <div class="form-group">
+                            <image src="" style="height: 10em; width: 10em;" id="imagineBautura"></image>
+                        </div>
+                        <div class="form-group">
+                            <form id="imgur">
+                              <p>Schimbati poza:</p>
+                                <input id="editImagineFile" type="file" class="imgur" accept="image/*" data-max-size="50000"/>
+                                <input type="hidden" id="editImagineFileUrl">
+                              </form>
+                        </div>
+        <button id="saveBautura" type="submit" class="btn btn-primary">Save</button>
       </form>
       </div>
+    </div>
+  
 
 </div>
 
 <div id="locatieModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" id="closeEditLocatie" class="close" data-dismiss="modal">&times;</button>
+      </div>
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map"></div>
+    <div class="modal-footer">
+        <button id='saveEditLocatieButton' style="text-align: center; justify-content: center; vertical-align: center;" type="button"  class="btn btn-primary center-block"><span>Save</span></button>
+ 
+
+</div>
       </div>
 </div>
 
+<table class="table" id="oferteTable">
+    <thead>
+    
+    <tr>
+          <th>nume</th>
+          <th>numar bauturi</th>
+          <th>bautura id</th>
+          <th>tip oferta</th>
+          <th>perioada</th>
+          <th><button id="btnAddOferta" class="btn btn-default">Add Campanie</button></th>
+      </tr>
+    </thead>  
+      <tbody></tbody>
+  </table>
 
-      <table class="table" id="personDataTable">
+      <table class="table" id="bauturiTable">
         <thead>
         
         <tr>
               <th>nume</th>
-              <th>tip</th>
-              <th>locatie</th>
               <th>imagine</th>
+              <th></th>
+              <th><button id="btnAddBautura" class="btn btn-default">Add Image</button></th>
           </tr>
         </thead>  
           <tbody></tbody>
       </table>
 
+      
+
+      
+
     <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="scripts/GetImagini.js"></script>
+    <script type="text/javascript" src="scripts/GetOferte.js"></script>
     <script type="text/javascript" src="scripts/AddDrink.js"></script>
+    <script type="text/javascript" src="scripts/AddOferta.js"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="jquery.editable.min.js"></script>
     <script  type="text/javascript" src="scripts/EditLocatie.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdUUSFpTD78znhXdJfb9dMV9OWouq-iNI&libraries=places&callback=initAutocomplete"
     async defer></script>
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 
   </body>
 </html>

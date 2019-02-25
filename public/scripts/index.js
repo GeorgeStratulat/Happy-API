@@ -10,23 +10,44 @@ var btn = document.getElementById("myBtn");
 btn.onclick = function() {
     modal.style.display = "block";
 }
+$(function() {
+	$( "#imagini-sortable" ).sortable();
+	$( "#imagini-sortable" ).disableSelection();
+});
 
 
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
 
 $(document).ready(function() {
     jQuery.support.cors = true;
     var bautura = [];
 
-    $('input[type=file]').on("change", function() {
+   
+
+    $("#addImagineVenue").click(function(){
+        console.log($("#uploadImagineVenueUrl").val());
+        var patchDoc =  { "imagineAdaugata": $("#uploadImagineVenueUrl").val()} ;
+        console.log(JSON.stringify(patchDoc));
+        $.ajax({
+        contentType: "application/json",
+        data: JSON.stringify(patchDoc),
+        dataType: "json",
+        method: "PATCH",
+        url: "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/addImagine",
+        success: function(){
+          
+            // if true (1)
+            
+               setTimeout(function(){
+                    location.reload(); 
+               }, 0); 
+            
+         }
+        });
+});
+
+    
+
+    $('#editImagineFile').on("change", function() {
 
         var $files = $(this).get(0).files;
     
@@ -66,7 +87,111 @@ $(document).ready(function() {
           // Response contains stringified JSON
           // Image URL available at response.data.link
           $.ajax(settings).done(function(response) {
-            console.log(response);
+            var obj = JSON.parse(response);
+            console.log(obj.data.link);
+            $('#editImagineFileUrl').val(obj.data.link);
+            
+          });
+    
+        }
+      });
+
+      $('#uploadImagineVenue').on("change", function() {
+
+        var $files = $(this).get(0).files;
+    
+        if ($files.length) {
+    
+          // Reject big files
+          if ($files[0].size > $(this).data("max-size") * 1024) {
+            console.log("Please select a smaller file");
+            return false;
+          }
+    
+          // Begin file upload
+          console.log("Uploading file to Imgur..");
+    
+          // Replace ctrlq with your own API key
+          var apiUrl = 'https://api.imgur.com/3/image';
+          var apiKey = '16086a74217d3c0';
+    
+          var settings = {
+            async: false,
+            crossDomain: true,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            url: apiUrl,
+            headers: {
+              Authorization: 'Client-ID ' + apiKey,
+              Accept: 'application/json'
+            },
+            mimeType: 'multipart/form-data'
+          };
+    
+          var formData = new FormData();
+          formData.append("image", $files[0]);
+          settings.data = formData;
+    
+          // Response contains stringified JSON
+          // Image URL available at response.data.link
+          $.ajax(settings).done(function(response) {
+            var obj = JSON.parse(response);
+            console.log(obj.data.link);
+            $("#uploadImagineVenueUrl").val(obj.data.link);
+            console.log($("#uploadImagineVenueUrl").val());
+            
+            
+          });
+    
+        }
+      });
+
+      $('#uploadImagineBautura').on("change", function() {
+
+        var $files = $(this).get(0).files;
+    
+        if ($files.length) {
+    
+          // Reject big files
+          if ($files[0].size > $(this).data("max-size") * 1024) {
+            console.log("Please select a smaller file");
+            return false;
+          }
+    
+          // Begin file upload
+          console.log("Uploading file to Imgur..");
+    
+          // Replace ctrlq with your own API key
+          var apiUrl = 'https://api.imgur.com/3/image';
+          var apiKey = '16086a74217d3c0';
+    
+          var settings = {
+            async: false,
+            crossDomain: true,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            url: apiUrl,
+            headers: {
+              Authorization: 'Client-ID ' + apiKey,
+              Accept: 'application/json'
+            },
+            mimeType: 'multipart/form-data'
+          };
+    
+          var formData = new FormData();
+          formData.append("image", $files[0]);
+          settings.data = formData;
+    
+          // Response contains stringified JSON
+          // Image URL available at response.data.link
+          $.ajax(settings).done(function(response) {
+            var obj = JSON.parse(response);
+            console.log(obj.data.link);
+            $("#uploadImagineBauturaUrl").val(obj.data.link);
+            console.log($("#uploadImagineBauturaUrl").val());
+            
           });
     
         }
@@ -74,41 +199,67 @@ $(document).ready(function() {
 
     $.ajax({
         type: "GET",
-        url:"https://radiant-beyond-44987.herokuapp.com/venue",
+        url:"https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37",
         data:"{}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         cache: false,
         success: function (data){
             console.log(data);
-            $("#numeVenue").text(data[0].nume);
-            $("#locatieVenue").text(data[0].locatie);
+            $("#numeVenue").text(data.nume);
+            $("#locatieVenue").text(data.locatie);
+            $("#detalii").text(data.detalii);
+            // console.log("--imagini->>" + data.imagine);
+            // data.imagine.forEach(function(img){
+            //     console.log(img);
+            //     $("#imagini-sortable").append("<li class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
+            //     "<button class='btn btn-danger deleteImagineVenue' >Sterge</button></li>");
+            //     $("#imagineBautura").attr("src", img);
+            //     $("#imagineBautura").attr("id", img);
+            //     var buttonDeleteImageVenue = document.getElementsByClassName("deleteImagineVenue");
+            //     $.each(buttonDeleteImageVenue, function(index, value){
+            //         buttonDeleteImageVenue[index].onclick = function(){
+            //             var result = confirm("Want to delete?");
+            //             if(result){
+            //                 // $.ajax({
+            //                 //     url: ""
+            //                 // })
+            //                 console.log("smthttt");
+            //             }
+            //         }
+            //     })
+
+            // })
         }
     });
+
+
 
     $.ajax(
     {
          type: "GET",
-         url: "https://radiant-beyond-44987.herokuapp.com/bautura",
+         url: "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/bautura",
          data: "{}",
          contentType: "application/json; charset=utf-8",
          dataType: "json",
          cache: false,
          success: function (data) {
-			 console.log(data);
             bautura = data;
-            console.log(bautura);
+            console.log(data);
+
 			$.each(data, function (key, value) {
                   
                   
-                  $("table tbody").append("<tr>"+"<td>"+value.nume+"</td>"
-                                 +"<td>"+value.tip+"</td>"
-                                 +"<td>"+value.locatie+"</td>"
-                                 +"<td><a href='"+value.imagine+"'>Click pt imagine</a></td>"
+                  $("#bauturiTable tbody").append("<tr>"+"<td>"+value.nume+"</td>"
+                                
+                                 +"<td><image id='imagine' src='' style='height:5 em; width: 5em'></image</td>"
                                  +"<td><button class='editButton'>Edit</button></td>"
                                  +"<td><button class='deleteButton'>Sterge</button></td>"+"</tr>" );
+                                    console.log(value.imagine);
+                                    $('#imagine').attr('src', value.imagine);
+                                    $('#imagine').attr('id', value.imagine);
 
-
+                                    
                                   var modal = document.getElementById('editModal');
 
                                  // Get the button that opens the modal
@@ -145,48 +296,25 @@ $(document).ready(function() {
                                         console.log(bautura[index]._id);
                                         $("#id").val(bautura[index]._id)
                                         $("#numeEdit").val(bautura[index].nume);
-                                        $("#cantitateEdit").val(bautura[index].cantitate);
-                                        $("#tipEdit").val(bautura[index].tip);
-                                        $("#locatieEdit").val(bautura[index].locatie);
                                         $("#imagineEdit").val(bautura[index].imagine);
+                                        $("#imagineBautura").attr("src", bautura[index].imagine);
+                                        $("#closeEdit").click(function(){
+                                           $('#editModal').hide();
+                                        })
 
-                                        $("#EditBauturaForm").submit(function(event){
-                                        event.preventDefault();
-                                        ajaxUpdate();
-                                        });
-
-                                        function ajaxUpdate(){
-                                                    var formData = {
-                                                    nume : $("#numeEdit").val(),
-                                                    cantitate :  $("#cantitateEdit").val(),
-                                                    tip: $("#tipEdit").val(),
-                                                    locatie: $("#locatieEdit").val(),
-                                                    imagine: $("#imagineEdit").val()
-                                                }
-
-                                                $.ajax({
-                                                            type : "PUT",
-                                                            contentType : "application/json",
-                                                            url : "https://radiant-beyond-44987.herokuapp.com/bautura/"+bautura[index]._id,
-                                                            
-                                                            data : JSON.stringify(formData),
-                                                            dataType : 'json',
-                                                            success : function(customer) {
-                                                                console.log(formData);
-                                                                console.log("put cu succes");
-                                                                $("#postResultDiv").html("<p>" + 
-                                                                    "Post Successfully! <br>" +
-                                                                    "--->" + JSON.stringify(customer)+ "</p>"); 
-                                                                    modal.style.display = "none";
-                                                                location.reload();
-                                                            },
-                                                            error : function(e) {
-                                                                alert("Error!")
-                                                                console.log("ERROR: ", e);
-                                                            }
-                                                        });
-
-                                    }
+                                        $("#saveBautura").click(function(){
+                                            console.log($("#editImagineFileUrl").val());
+                                            var patchDoc =  { "imagine": $("#editImagineFileUrl").val()} ;
+                                            console.log(JSON.stringify(patchDoc));
+                                            console.log(bautura[index]._id);
+                                            $.ajax({
+                                            contentType: "application/json",
+                                            data: JSON.stringify(patchDoc),
+                                            dataType: "json",
+                                            method: "PATCH",
+                                            url: "https://radiant-beyond-44987.herokuapp.com/bautura/" + bautura[index]._id + "/imagine"
+                                            });
+                                        })
 
                                 }
 

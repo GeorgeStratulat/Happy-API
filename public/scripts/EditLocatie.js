@@ -1,10 +1,35 @@
 
 $('#editLocatie').click(function(){
     $('#locatieModal').show();
+    $('#pac-input').val($('#locatieVenue').val());
+    $('#closeEditLocatie').click(function(){
+      $('#locatieModal').hide();
+      // $('#editLocatie').unbind();
+    })
 
-       
+       $('#saveEditLocatieButton').click(function(){
+        console.log($('#pac-input').val());
+        var patchDoc =  { "locatie": $("#pac-input").val()} ;
+            console.log(JSON.stringify(patchDoc));
+            $.ajax({
+            contentType: "application/json",
+            data: JSON.stringify(patchDoc),
+            dataType: "json",
+            method: "PATCH",
+            url: "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/locatie",
+            success: function(){
+              
+              // if true (1)
+                 setTimeout(function(){// wait for 5 secs(2)
+                      location.reload(); // then reload the page.(3)
+                 }, 0); 
+              
+           }
+            });
+       });
 
         });
+        
         function initAutocomplete() {
             var map = new google.maps.Map(document.getElementById('map'), {
               center: {lat: -33.8688, lng: 151.2195},
