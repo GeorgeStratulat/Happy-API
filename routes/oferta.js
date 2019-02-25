@@ -17,6 +17,48 @@ router.get("/", (req,res)=>{
     })    
 });
 
+router.patch("/activeazaOferta/:ofertaId", (req,res)=>{
+    const id = req.params.ofertaId;
+    Venues.update({_id:id}, {$set:{
+        active: true
+    }
+    })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.patch("/dezactiveazaOferta/:ofertaId", (req,res)=>{
+    const id = req.params.ofertaId;
+    Venues.update({_id:id}, {$set:{
+        active: false
+    }
+    })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: "Employee Updated!"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
 router.post("/:venueId/addOferta", (req,res) =>{
     const perioada = new Perioada({
         _id: mongoose.Types.ObjectId(),
