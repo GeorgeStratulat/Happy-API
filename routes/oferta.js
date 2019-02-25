@@ -36,7 +36,7 @@ router.get("/:venueId", (req,res) => {
 
 router.patch("/activeazaOferta/:ofertaId", (req,res)=>{
     const id = req.params.ofertaId;
-    Venues.update({_id:id}, {$set:{
+    Oferte.update({_id:id}, {$set:{
         active: true
     }
     })
