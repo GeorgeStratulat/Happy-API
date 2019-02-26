@@ -20,7 +20,7 @@ router.get("/", (req,res)=>{
 router.patch("/:imagineId/ordoneaza", (req,res)=>{
     const id = req.params.imagineId;
     Imagine_Venues.update({_id:id}, {$set:{
-        order: req.body.ordine
+        order: req.body.order
     }
     })
     .exec()
