@@ -20,7 +20,9 @@ router.post("/addPerioada", (req,res) =>{
             _id : mongoose.Types.ObjectId(),
             zile: req.body.zile,
             ora_inceput: req.body.ora_inceput,
-            ora_sfarsit: req.body.ora_sfarsit  
+            ora_sfarsit: req.body.ora_sfarsit,
+            data_inceput: req.body.data_inceput,
+            data_sfarsit: req.body.data_sfarsit 
     });
 
     perioada.save().then(result=>{
