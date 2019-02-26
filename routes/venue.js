@@ -187,6 +187,34 @@ router.patch("/:venueId/addBautura", (req,res)=>{
 });
 })
 
+// router.patch("/:venueId/ordoneazaImagini", (req,res)=>{
+//   const id = req.params.venueId;
+
+  
+//   Imagine_Venues.updateMany({venue:id}, {$set:{
+//     order: req.body.
+//   }}
+
+//   )
+
+//   Venues.update({_id: id}, {$push:{
+//     imagine: imagine_venue._id
+// }})
+//   .exec()
+//   .then(result => {
+//     console.log(result);
+//     res.status(200).json({
+//       message: "Employee Updated!"
+//     });
+//   })
+//   .catch(err => {
+//     console.log(err);
+//     res.status(500).json({
+//       error: err
+//     });
+//   });
+// });
+
 router.patch("/:venueId/addImagine", (req,res)=>{
   const id = req.params.venueId;
 
