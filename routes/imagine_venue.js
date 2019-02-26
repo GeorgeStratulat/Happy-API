@@ -37,3 +37,4 @@ router.patch("/:imagineId/ordoneaza", (req,res)=>{
       });
     });
 });
+module.exports = router;
