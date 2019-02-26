@@ -1,36 +1,57 @@
-var perioada = 0;
-var bautura = 0;
-function getPerioada(id){
+var perioade = new Array();
+var bauturi = new Array();
+function getPerioade(){
     $.ajax({
         type: "GET",
-        url:"https://radiant-beyond-44987.herokuapp.com/perioada/"+id,
+        url:"https://radiant-beyond-44987.herokuapp.com/perioada",
         data:"{}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         cache: false,
         success: function (well){
-            console.log("perioada->>>" + JSON.stringify(well));
-            perioada = well;
+            
+            perioade = well;
             
         }
     });
 }
 
-function getBauturaOfertata(id){
+function getBauturi(){
     $.ajax({
         type: "GET",
-        url:"https://radiant-beyond-44987.herokuapp.com/bautura/"+id,
+        url:"https://radiant-beyond-44987.herokuapp.com/bautura",
         data:"{}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         cache: false,
         success: function (well){
-            console.log("perioada->>>" + JSON.stringify(well));
-            bautura = well;
+            // console.log("bauturi" + JSON.stringify(well));
+            bauturi = well;
             
         }
     });
 }
+getPerioade();
+getBauturi();
+
+function searchBautura(nameKey, myArray){
+    for (var i=0; i < myArray.length; i++) {
+        if (myArray[i]._id === nameKey) {
+            console.log("fra here" + myArray[i].nume);
+            return myArray[i].nume;
+        }
+    }
+}
+
+function searchPerioada(nameKey, myArray){
+    
+    for (var i=0; i < myArray.length; i++) {
+        if (myArray[i]._id === nameKey) {
+            var perioadaCautata = {zile: myArray[i].zile, ora_inceput: myArray[i].ora_inceput, ora_sfarsit: myArray[i].ora_sfarsit};
+            return perioadaCautata;
+        }
+    }
+}  
 
 $.ajax(
     {
@@ -43,21 +64,20 @@ $.ajax(
          success: function (data) {
             bautura = data;
             console.log(data);
-
+           
+    $( document ).ajaxComplete(function( event, request, settings ) {
+        if((perioade!=0) && (bauturi!=0)){
 			$.each(data, function (key, value) {
+               
+                    console.log(value.nume+ " " +value.tip_oferta);
 
-                getPerioada(value.perioada);  
-                getBauturaOfertata(value.bautura_id);              
-                $( document ).ajaxComplete(function( event, request, settings ) {
-                    console.log("cica fkdsfs");
-                    if((perioada != 0) && (bautura != 0)){
                     $("#oferteTable tbody").append("<tr class='oferta' id='oferta'>"+"<td>"+value.nume+"</td>"
                                 
                                  +"<td>"+value.numar_bauturi+"</td>"
-                                 +"<td>"+bautura.nume+"</td>"
+                                 +"<td>"+searchBautura(value.bautura_id, bauturi)+"</td>"
                                  +"<td>"+value.tip_oferta+"</td>"
                                 //  +"<td><td>"+perioada.zile+"</td><td>"+perioada.ora_inceput+" "+perioada.ora_sfarsit+"</td></td>"
-                                 +"<td><td>"+perioada.zile+"</td><td>"+perioada.ora_inceput+" "+perioada.ora_sfarsit+"</td></td>"
+                                 +"<td><td>"+searchPerioada(value.perioada, perioade).zile+"</td><td>"+searchPerioada(value.perioada, perioade).ora_inceput+" "+searchPerioada(value.perioada, perioade).ora_sfarsit+"</td></td>"
                                  +"</tr>" );
                                  if(value.active == true){
                                     $("#oferta").append("<td><button class='deactivate_offer'>Dezactiveaza</button></td>");
@@ -87,8 +107,9 @@ $.ajax(
                                                 url: "https://radiant-beyond-44987.herokuapp.com/oferta/activeazaOferta/"+bautura[index]._id,
                                                
                                                 success : function(customer) {
+                                                    
+                                                    console.log(bautura[index]._id);
                                                     location.reload();
-                                                    console.log("Activare cu succes");
                                                     
                                                 },
                                                 error : function(e) {
@@ -113,6 +134,7 @@ $.ajax(
                                                url: "https://radiant-beyond-44987.herokuapp.com/oferta/dezactiveazaOferta/"+bautura[another_index]._id,
                                               
                                                success : function(customer) {
+                                                   location.reload();
                                                 console.log("https://radiant-beyond-44987.herokuapp.com/oferta/dezactiveazaOferta/"+bautura[another_index]._id);
                                                    console.log("Dezactivare cu succes");
                                                    
@@ -126,13 +148,14 @@ $.ajax(
                                     }
                                 });
                             }); 
-
-                            perioada = 0; bautura = 0;
-             } 
-            });
+             
                   
 
-                                });
-
+                                
+                            })
+                            bauturi = 0; perioade = 0;
+                        }
+                              });
                             }
                         })
+                       

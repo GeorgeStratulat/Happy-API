@@ -9,7 +9,7 @@ $.ajax({
         console.log("imagini->>>" + data);
         data.forEach(function(img){
             console.log(img);
-            $("#imagini-sortable").append("<li class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
+            $("#imagini-sortable").append("<li  class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
             "<button class='btn btn-danger deleteImagineVenue' >Sterge</button></li>");
             $("#imagineBautura").attr("src", img.url);
             $("#imagineBautura").attr("id", img.url);

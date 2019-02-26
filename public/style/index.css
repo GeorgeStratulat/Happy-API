@@ -1,13 +1,13 @@
 /* Basic Style */
 body {
-    background: #fff;
+    background-color: rgb(253, 255, 168, 0.5 ) !important;
     color: #333;
     font-family: Lato, sans-serif;
   }
   .container {
     display: block;
-    width: 400px;
-    margin: 100px auto 0;
+    width: 100%;
+    margin: 50px auto 0;
   }
   ul {
     margin: 0;
@@ -250,4 +250,7 @@ html, body {
 
 #imagini-sortable { list-style-type: none; }
 
+#container-imagini{
+  
+}
 
