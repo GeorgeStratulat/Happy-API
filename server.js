@@ -60,7 +60,7 @@ app.use("/abonament_user", Abonament_UserRoutes);
 app.use("/bautura_comandata", Bautura_ComandataRoutes);
 app.use("/oferta", OfertaRoutes);
 app.use("/perioada", PerioadaRoutes);
-app.use("/imagine_venue", Imagine_VenueRoutes);
+app.use("/iamgine_venue", Imagine_VenueRoutes);
 
 
 
