@@ -6,8 +6,9 @@ body {
   }
   .container {
     display: block;
-    width: 100%;
-    margin: 50px auto 0;
+    width: 100% !important;
+    margin: 0 0 0 0 !important;
+
   }
   ul {
     margin: 0;
@@ -246,11 +247,15 @@ html, body {
 
 #addOfertaModal .modal-content{
   height:90% !important;
+  position:absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
 }
 
 #imagini-sortable { list-style-type: none; }
 
-#container-imagini{
+/* #container-imagini{
   
-}
+} */
 

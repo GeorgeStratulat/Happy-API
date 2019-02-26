@@ -36,7 +36,9 @@ $("#btnAddOferta").click(function(){
                         tip_oferta: $("#TipOfertaAdd").val(),
                         zile: checked_days,
                         ora_inceput: $("#ora_inceput").val(),
-                        ora_sfarsit: $("#ora_sfarsit").val()
+                        ora_sfarsit: $("#ora_sfarsit").val(),
+                        data_inceput: $("#data_inceput").val(),
+                        data_sfarsit: $("#data_sfarsit").val()
                             }
                         addOferta(formData);
                                     // console.log("esti prost");

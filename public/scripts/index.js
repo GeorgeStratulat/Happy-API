@@ -10,10 +10,7 @@ var modal = document.getElementById('myModal');
 // btn.onclick = function() {
 //     modal.style.display = "block";
 // }
-$(function() {
-	$( "#imagini-sortable" ).sortable();
-	$( "#imagini-sortable" ).disableSelection();
-});
+
 
 
 

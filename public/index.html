@@ -13,14 +13,25 @@
 
 </head>
   <body >
-    <div class="container">
+    <div class="container-fluid" >
 
       <h2 id="numeVenue"></h2>
-      <label for="imagini">Imagini:</label>
-      <div id="container-imagini">
-          <ul style="width: 50%;" id="imagini-sortable">
-              
+      <div id="container-imagini" style="display: inline-block; width:100%;">
+        <div class="col" style="width: 45%; float:left;">
+            <label for="imagini">Imagini:</label>
+          <ul style="width: 100%;" id="imagini-sortable">
+              <button id="salveaza_ordine_imagini" type="button" class="btn btn-primary">Salveaza ordine</button>
             </ul>
+          </div>
+          <div class="col" style="width:45%; margin-left: 100px; float: right!important; ">
+              <label for="adresa">Adresa:</label>
+              <p id="locatieVenue" contenteditable="false"></p>
+              <label for="detalii">Detalii:</label><br/>
+              <textarea id="detalii" readonly rows="6" cols="45"></textarea><br/>
+              <button id='editDetaliiButton' style="margin-top: 0.5em;" type="button"  class="btn btn-primary"><span class="ui-button-text">Edit</span>
+              </button><br/>
+              <button id="editLocatie">Enable content of p to be editable!</button>
+          </div>
       </div>
       <form id="imgur">
           <input id="uploadImagineVenue" type="file" class="imgur" accept="image/*" data-max-size="50000"/>
@@ -28,13 +39,7 @@
         <input type="hidden" id="uploadImagineVenueUrl">
         <button id="addImagineVenue" type="button" class="btn btn-primary">Adauga</button><br/>
       
-      <label for="adresa">Adresa:</label>
-      <p id="locatieVenue" contenteditable="false"></p>
-      <label for="detalii">Detalii:</label><br/>
-      <textarea id="detalii" readonly rows="6" cols="70"></textarea><br/>
-      <button id='editDetaliiButton' style="margin-top: 0.5em;" type="button"  class="btn btn-primary"><span class="ui-button-text">Edit</span>
-      </button><br/>
-      <button id="editLocatie">Enable content of p to be editable!</button>
+      
       <script type="text/javascript" src="./scripts/EditDetalii.js"></script>
 
 
@@ -75,7 +80,7 @@
 
     <div class="modal-content">
       <span id="closeAddOfertaModal" class="close" >&times;</span>
-        <form id="AddOfertaForm">
+        <form id="AddOfertaForm" autocomplete="off">
           <div class="form-group">
             <input type="hidden" id="id"/>
           <label for="nume">Nume oferta:</label>
@@ -121,6 +126,14 @@
               <div class="form-group">
                 <label>Alegeti intre ce ore</label>
                 <input id="ora_inceput" type="time" > <input id="ora_sfarsit" type="time">
+              </div>
+              <div class="form-group">
+                <label>Alegeti cand sa inceapa oferta</label>
+                <input type="date" id="data_inceput" min="2019-02-26">
+              </div>
+              <div class="form-group">
+                <label>Alegeti cand sa se termine oferta</label>
+                <input id="data_sfarsit" type="date">
               </div>
               </div>
           <button id="addOfertaButton" type="button" class="btn btn-default">Submit</button>

@@ -1,3 +1,7 @@
+var imagini = new Array();
+getImagini();
+
+function getImagini(){
 $.ajax({
     type: "GET",
     url:"https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/imagini",
@@ -7,6 +11,7 @@ $.ajax({
     cache: false,
     success: function (data){
         console.log("imagini->>>" + data);
+        imagini = data;
         data.forEach(function(img){
             console.log(img);
             $("#imagini-sortable").append("<li  class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
@@ -39,4 +44,51 @@ $.ajax({
 
         })
     }
+});
+}
+
+
+$( document ).ajaxComplete(function( event, request, settings ) {
+
+$("#salveaza_ordine_imagini").click(function(){
+    console.log("merge butonu de save");
+        saveChanges();
+    });
+});
+
+function saveChanges(){
+    //ceva cu ordonare.....
+    console.log("imagini->>>"+JSON.stringify(imagini));
+    $.each(imagini, function(key, value){
+        console.log(value._id);
+        var patchDoc =  { "order": 22} ;
+        $.ajax({
+            contentType: "application/json",
+            data: JSON.stringify(patchDoc),
+            dataType: "json",
+            method: "PATCH",
+            url: "https://radiant-beyond-44987.herokuapp.com/imagine_venue/"+ value._id +"/ordoneaza",
+           
+            success : function(customer) {
+                
+                console.log("https://radiant-beyond-44987.herokuapp.com/imagine_venue/"+ value._id +"/ordoneaza");                
+            },
+            error : function(e) {
+                alert("Error!")
+                console.log("ERROR: ", e);
+            }
+        });
+    })
+}
+
+$(function() {
+	$( "#imagini-sortable" ).sortable({
+        update: function(event, ui) { 
+            console.log('update: '+ui.item.index())
+        },
+        start: function(event, ui) { 
+            console.log('start: ' + ui.item.index())
+        }
+    });
+	$( "#imagini-sortable" ).disableSelection();
 });
