@@ -81,7 +81,9 @@ router.post("/:venueId/addOferta", (req,res) =>{
         _id: mongoose.Types.ObjectId(),
         ora_inceput: req.body.ora_inceput,
         ora_sfarsit: req.body.ora_sfarsit,
-        zile: req.body.zile
+        zile: req.body.zile,
+        data_inceput: req.body.data_inceput,
+        data_sfarsit: req.body.data_sfarsit
     })
     perioada.save().then(result=>{
         console.log(result);
