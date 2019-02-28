@@ -14,8 +14,9 @@ $.ajax({
         imagini = data;
         data.forEach(function(img){
             console.log(img);
-            $("#imagini-sortable").append("<li  class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
+            $("#imagini-sortable").append("<li id='li_id' class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
             "<button class='btn btn-danger deleteImagineVenue' >Sterge</button></li>");
+            $("#li_id").attr("id", img._id);
             $("#imagineBautura").attr("src", img.url);
             $("#imagineBautura").attr("id", img.url);
             var buttonDeleteImageVenue = document.getElementsByClassName("deleteImagineVenue");
@@ -58,10 +59,13 @@ $("#salveaza_ordine_imagini").click(function(){
 
 function saveChanges(){
     //ceva cu ordonare.....
+    // imagini.forEach(function(img){
+    //     console.log("pozitia este-> " + );
+    // });
     console.log("imagini->>>"+JSON.stringify(imagini));
     $.each(imagini, function(key, value){
         console.log(value._id);
-        var patchDoc =  { "order": 22} ;
+        var patchDoc =  { "order": $('#' + value._id).index()} ;
         $.ajax({
             contentType: "application/json",
             data: JSON.stringify(patchDoc),

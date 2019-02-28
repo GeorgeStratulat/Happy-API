@@ -31,7 +31,19 @@
               <button id='editDetaliiButton' style="margin-top: 0.5em;" type="button"  class="btn btn-primary"><span class="ui-button-text">Edit</span>
               </button><br/>
               <button id="editLocatie">Enable content of p to be editable!</button>
-          </div>
+              <br/>
+              <label for="orar">Orar:</label>
+              <div><label for="luni">Luni:</label><input style="width: 5.5em;" id="start_luni" type="time">-<input style="width: 5.5em;" id="end_luni" type="time"></div>
+              <div><label for="luni">Marti:</label><input style="width: 5.5em;" id="start_marti" type="time">-<input style="width: 5.5em;" id="end_marti" type="time"></div>
+              <div><label for="luni">Miercuri:</label><input style="width: 5.5em;" id="start_miercuri" type="time">-<input style="width: 5.5em;" id="end_miercuri" type="time"></div>
+              <div><label for="luni">Joi:</label><input style="width: 5.5em;" id="start_joi" type="time">-<input style="width: 5.5em;" id="end_joi" type="time"></div>              
+              <div><label for="luni">Vineri:</label></label><input style="width: 5.5em;" id="start_vineri" type="time">-<input style="width: 5.5em;" id="end_vineri" type="time"></div>             
+              <div><label for="luni">Sambata:</label><input style="width: 5.5em;" id="start_sambata" type="time">-<input style="width: 5.5em;" id="end_sambata" type="time"></div>              
+              <div><label for="luni">Duminica:</label><input style="width: 5.5em;" id="start_duminica" type="time">-<input style="width: 5.5em;" id="end_duminica" type="time"></div>              
+
+
+              <button id="save_orar" style="float:right; margin-right: 5em;" type="button" class="btn btn-primary">Save</button>
+            </div>
       </div>
       <form id="imgur">
           <input id="uploadImagineVenue" type="file" class="imgur" accept="image/*" data-max-size="50000"/>
@@ -224,6 +236,7 @@
     <script type="text/javascript" src="scripts/index.js"></script>
     <script type="text/javascript" src="scripts/GetImagini.js"></script>
     <script type="text/javascript" src="scripts/GetOferte.js"></script>
+    <script type="text/javascript" src="scripts/GetOrar.js"></script>
     <script type="text/javascript" src="scripts/AddDrink.js"></script>
     <script type="text/javascript" src="scripts/AddOferta.js"></script>
 
