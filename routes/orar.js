@@ -35,7 +35,7 @@ router.post("/addOrar", (req,res) =>{
       console.log(result);
       res.status(201).json({
           message:"Orar salvat!",
-          VenueAdaugat: venue
+          orarAdaugat: orar
       });
   })
   .catch(err=>{
