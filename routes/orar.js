@@ -16,6 +16,40 @@ router.get("/", (req,res)=>{
     })    
 });
 
+router.get("/:orarId", (req,res) => {
+    const id = req.params.orarId;
+    Orare.findById(id).exec().then(doc=>{
+        console.log("From database ", doc);
+        if(doc){
+            res.status(200).json(doc);
+        } else{
+            res.status(404).json({ message: "No employee found with specified id" });
+        }
+      })
+      .catch(err => {
+        console.log("nu merge /getID");
+        res.status(500).json({ error: err });
+      });
+    
+});
+
+router.get("/venue/:venueId", (req,res) => {
+    const id = req.params.venueId;
+    Orare.find({"venue":id}).exec().then(doc=>{
+        console.log("From database ", doc);
+        if(doc){
+            res.status(200).json(doc);
+        } else{
+            res.status(404).json({ message: "No employee found with specified id" });
+        }
+      })
+      .catch(err => {
+        console.log("nu merge /getID");
+        res.status(500).json({ error: err });
+      });
+    
+});
+
 router.post("/addOrar", (req,res) =>{
     const orar = new Orare({
         _id : mongoose.Types.ObjectId(),
@@ -29,8 +63,6 @@ router.post("/addOrar", (req,res) =>{
         duminica: req.body.duminica
     });
 
-
-   
     orar.save().then(result=>{
       console.log(result);
       res.status(201).json({
