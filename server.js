@@ -11,6 +11,7 @@ const Bautura_ComandataRoutes = require("./routes/bautura_comandata");
 const OfertaRoutes = require("./routes/oferta");
 const PerioadaRoutes = require("./routes/perioada");
 const Imagine_VenueRoutes = require("./routes/imagine_venue");
+const OrarRoutes = require("./routes/orar");
 
 // create express app
 
@@ -61,6 +62,7 @@ app.use("/bautura_comandata", Bautura_ComandataRoutes);
 app.use("/oferta", OfertaRoutes);
 app.use("/perioada", PerioadaRoutes);
 app.use("/imagine_venue", Imagine_VenueRoutes);
+app.use("/orar", OrarRoutes);
 
 
 

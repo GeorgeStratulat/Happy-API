@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Venues = require ("../schema/venue.js");
 const Bauturi = require ("../schema/bautura.js");
 const Imagine_Venues = require("../schema/imagine_venue.js");
+const Orare = require("../schema/orar.js");
 
 router.get("/", (req,res)=>{
     Venues.find().exec().then(docs=>{
@@ -120,6 +121,8 @@ router.put("/:venueId", (req,res)=>{
       });
     });
 });
+
+
 
 router.patch("/:venueId/locatie/", (req,res)=>{
     const id = req.params.venueId;
