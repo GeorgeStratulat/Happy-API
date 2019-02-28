@@ -35,7 +35,7 @@ router.get("/:orarId", (req,res) => {
 
 router.get("/venue/:venueId", (req,res) => {
     const id = req.params.venueId;
-    Orare.find({"venue":id}).exec().then(doc=>{
+    Orare.findOne({"venue":id}).exec().then(doc=>{
         console.log("From database ", doc);
         if(doc){
             res.status(200).json(doc);
