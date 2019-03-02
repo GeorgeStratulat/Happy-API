@@ -23,7 +23,7 @@ router.post("/login", (req,res) =>{
     Admin_Venues.findOne({"username": admin_venue.username, "password": admin_venue.password}).exec().then(doc=>{
         
         var id = doc._id;
-       res.send({"success":true, "message":id });
+       res.send({"success":true, "venue_id":doc.venue_id });
       })
       .catch(err => {
         console.log(err);
