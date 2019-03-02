@@ -1,5 +1,5 @@
 let express = require("express");
-var session = require("express-session");
+// var session = require("express-session");
 var cors = require("cors");
 let bodyParser = require("body-parser");
 const AbonamenteRoutes = require('./routes/abonamente');
@@ -65,7 +65,7 @@ app.use("/perioada", PerioadaRoutes);
 app.use("/imagine_venue", Imagine_VenueRoutes);
 app.use("/orar", OrarRoutes);
 app.use("/admin_venue", Admin_VenueRoutes);
-app.use(session({secret:"uit2003rasamakalaka", resave:false, saveUninitialized:true}));
+// app.use(session({secret:"uit2003rasamakalaka", resave:false, saveUninitialized:true}));
 
 
 //custom error handling for unknown routes
