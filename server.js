@@ -12,6 +12,7 @@ const OfertaRoutes = require("./routes/oferta");
 const PerioadaRoutes = require("./routes/perioada");
 const Imagine_VenueRoutes = require("./routes/imagine_venue");
 const OrarRoutes = require("./routes/orar");
+const Admin_VenueRoutes = require("./routes/admin_venue");
 
 // create express app
 
@@ -63,7 +64,7 @@ app.use("/oferta", OfertaRoutes);
 app.use("/perioada", PerioadaRoutes);
 app.use("/imagine_venue", Imagine_VenueRoutes);
 app.use("/orar", OrarRoutes);
-
+app.use("/admin_venue", Admin_VenueRoutes);
 
 
 //custom error handling for unknown routes
