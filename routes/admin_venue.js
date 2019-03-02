@@ -24,7 +24,7 @@ router.post("/login", (req,res) =>{
         
         var id = doc._id;
         var venue = doc.venue_id;
-       res.send({"success":true, "message":id, "venue_id":venue });
+       res.send({"success":true, "message":venue });
       })
       .catch(err => {
         console.log(err);
