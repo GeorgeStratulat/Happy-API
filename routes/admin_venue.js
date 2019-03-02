@@ -18,12 +18,11 @@ router.get("/", (req,res)=>{
 router.post("/login", (req,res) =>{
     const admin_venue = new Admin_Venues({
         username: req.body.username,
-        password: req.body.password,
+        password: req.body.password
     });
     Admin_Venues.findOne({"username": admin_venue.username, "password": admin_venue.password}).exec().then(doc=>{
         
         var id = doc._id;
-        var venue = doc.venue_id;
        res.send({"success":true, "message":id });
       })
       .catch(err => {
