@@ -54,7 +54,7 @@ $( document ).ajaxComplete(function( event, request, settings ) {
 $("#salveaza_ordine_imagini").click(function(){
     console.log("merge butonu de save");
         saveChanges();
-    });
+    });     
 });
 
 function saveChanges(){
