@@ -83,9 +83,9 @@ $.ajax(
                                  +"<td ><table><tbody><tr><td>Luni,Marti,Miercuri,Joi,Vineri</td></tr><tr><td>09:00-12:00</td></tr></tbody></table></td>"
                                  +"</tr>" );
                                  if(value.active == true){
-                                    $("#oferta").append("<td><button class='deactivate_offer'>Dezactiveaza</button></td>");
+                                    $("#oferta").append("<td><button class='deactivate_offer btn btn-danger'>Dezactiveaza</button></td>");
                                  }else{
-                                    $("#oferta").append("<td><button class='activate_offer'>Activeaza</button></td>");
+                                    $("#oferta").append("<td><button class='activate_offer btn btn-success'>Activeaza</button></td>");
                                  }
                                  $("#oferta").attr("id", "");
 
