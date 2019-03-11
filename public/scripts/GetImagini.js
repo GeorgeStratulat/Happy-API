@@ -2,20 +2,28 @@ var imagini = new Array();
 getImagini();
 
 function getImagini(){
+    var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/imagini";
+    var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/imagini"
+
 $.ajax({
     type: "GET",
-    url:"https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/imagini",
+    // url:"https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/imagini",
+    url: url_imagini,
+    // url:"https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/imagini",
+
     data:"{}",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     cache: false,
     success: function (data){
-        console.log("imagini->>>" + data);
+        console.log("imagini->>> "+url_imagini);
         imagini = data;
         data.forEach(function(img){
             console.log(img);
-            $("#imagini-sortable").append("<li id='li_id' class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
-            "<button class='btn btn-danger deleteImagineVenue' >Sterge</button></li>");
+            $("#imagini-sortable").append("<li  id='li_id' class='ui-state-default'><image class='img-responsive' style='width: 30em; height: 20em;' id='imagineBautura' src=''> </image>"+
+            "<button  class='btn btn-danger deleteImagineVenue' >Sterge</button></li>");
+            // $("#imagini-sortable").append("<li id='li_id' class='ui-state-default'><image class='img-responsive' style='width: 20em; height: 20em;' id='imagineBautura' src=''> </image>"+
+            // "<button class='btn btn-danger deleteImagineVenue' >Sterge</button></li>");
             $("#li_id").attr("id", img._id);
             $("#imagineBautura").attr("src", img.url);
             $("#imagineBautura").attr("id", img.url);

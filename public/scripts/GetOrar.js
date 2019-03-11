@@ -39,7 +39,7 @@ $("#save_orar").click(function(){
 function getOrar(){
     $.ajax({
         type: "GET",
-        url:"https://radiant-beyond-44987.herokuapp.com/orar/venue/5c012fa7a909321da86edd37",
+        url:"https://radiant-beyond-44987.herokuapp.com/orar/venue/" + localStorage.getItem('venue_id'),
         data:"{}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",

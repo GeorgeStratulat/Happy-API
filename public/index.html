@@ -16,23 +16,47 @@
     <div class="container-fluid" >
 
       <h2 id="numeVenue"></h2>
-      <div id="container-imagini" style="display: inline-block; width:100%;">
-        <div class="col" style="width: 45%; float:left;">
-            <label for="imagini">Imagini:</label>
+      <div id="container-imagini" style="padding-left: 4.5em; padding-right: 4.5em; padding-top: 1em; padding-bottom: 1em; display: inline-block; width:100%; ">
+
+        <div class="card " style="  float: left;width: 45%;">
+          <div class="card-header">Imagini</div>
+          <div class="card-body">
+            <ul style="width: 100%;" id="imagini-sortable">
+              <div style="width: 100%;"><p style="display: inline;" >Salveaza ordinea imaginilor: </p><button style="display: inline;"  id="salveaza_ordine_imagini" type="button" class="btn btn-primary">Save</button></div>
+            </ul>
+            <br>
+            <form id="imgur">
+              <p>Adauga imagine: </p><input id="uploadImagineVenue" type="file" class="imgur" accept="image/*" data-max-size="50000"/>
+            </form>
+            <input type="hidden" id="uploadImagineVenueUrl">
+            <button id="addImagineVenue" type="button" class="btn btn-primary">Add</button><br/>
+          </form>
+          </div>
+        </div>
+
+        <!-- <div class="col" style="width: 45%; float:left; background-color: white">
+            <label for="imagini"><b>Imagini:</b></label>
           <ul style="width: 100%;" id="imagini-sortable">
               <button id="salveaza_ordine_imagini" type="button" class="btn btn-primary">Salveaza ordine</button>
             </ul>
-          </div>
-          <div class="col" style="width:45%; margin-left: 100px; float: right!important; ">
-              <label for="adresa">Adresa:</label>
+          </div> -->
+          <div class="card " style="float: right; width: 45%;">
+            <div class="card-header">Detalii</div>
+            <div class="card-body">
+              <label for="adresa"><b>Adresa:</b></label>
               <p id="locatieVenue" contenteditable="false"></p>
-              <label for="detalii">Detalii:</label><br/>
-              <textarea id="detalii" readonly rows="6" cols="45"></textarea><br/>
+              <button id="editLocatie" type="button"  class="btn btn-primary">Edit</button>
+              <br/>
+              <label for="telefon"><b>Telefon de contact:</b></label>
+              <p id="telefonVenue" contenteditable="false">07644 299 233</p>
+              <button id="editLocatie" type="button"  class="btn btn-primary">Edit</button>
+              <br/>
+              <label for="detalii"><b>Detalii:</b></label><br/>
+              <textarea id="detalii" readonly rows="6" cols="75"></textarea><br/>
               <button id='editDetaliiButton' style="margin-top: 0.5em;" type="button"  class="btn btn-primary"><span class="ui-button-text">Edit</span>
               </button><br/>
-              <button id="editLocatie">Enable content of p to be editable!</button>
-              <br/>
-              <label for="orar">Orar:</label>
+              
+              <label for="orar"><b>Orar:</b></label>
               <div><label for="luni">Luni:</label><input style="width: 5.5em;" id="start_luni" type="time">-<input style="width: 5.5em;" id="end_luni" type="time"></div>
               <div><label for="luni">Marti:</label><input style="width: 5.5em;" id="start_marti" type="time">-<input style="width: 5.5em;" id="end_marti" type="time"></div>
               <div><label for="luni">Miercuri:</label><input style="width: 5.5em;" id="start_miercuri" type="time">-<input style="width: 5.5em;" id="end_miercuri" type="time"></div>
@@ -44,13 +68,32 @@
 
               <button id="save_orar" style="float:right; margin-right: 5em;" type="button" class="btn btn-primary">Save</button>
             </div>
+          </div>
+
+          <!-- <div class="col" style="width:45%; margin-left: 100px; float: right!important;  ">
+              <label for="adresa"><b>Adresa:</b></label>
+              <p id="locatieVenue" contenteditable="false"></p>
+              <label for="detalii"><b>Detalii:</b></label><br/>
+              <textarea id="detalii" readonly rows="6" cols="45"></textarea><br/>
+              <button id='editDetaliiButton' style="margin-top: 0.5em;" type="button"  class="btn btn-primary"><span class="ui-button-text">Edit</span>
+              </button><br/>
+              <button id="editLocatie">Enable content of p to be editable!</button>
+              <br/>
+              <label for="orar"><b>Orar:</b></label>
+              <div><label for="luni">Luni:</label><input style="width: 5.5em;" id="start_luni" type="time">-<input style="width: 5.5em;" id="end_luni" type="time"></div>
+              <div><label for="luni">Marti:</label><input style="width: 5.5em;" id="start_marti" type="time">-<input style="width: 5.5em;" id="end_marti" type="time"></div>
+              <div><label for="luni">Miercuri:</label><input style="width: 5.5em;" id="start_miercuri" type="time">-<input style="width: 5.5em;" id="end_miercuri" type="time"></div>
+              <div><label for="luni">Joi:</label><input style="width: 5.5em;" id="start_joi" type="time">-<input style="width: 5.5em;" id="end_joi" type="time"></div>              
+              <div><label for="luni">Vineri:</label></label><input style="width: 5.5em;" id="start_vineri" type="time">-<input style="width: 5.5em;" id="end_vineri" type="time"></div>             
+              <div><label for="luni">Sambata:</label><input style="width: 5.5em;" id="start_sambata" type="time">-<input style="width: 5.5em;" id="end_sambata" type="time"></div>              
+              <div><label for="luni">Duminica:</label><input style="width: 5.5em;" id="start_duminica" type="time">-<input style="width: 5.5em;" id="end_duminica" type="time"></div>              
+
+
+              <button id="save_orar" style="float:right; margin-right: 5em;" type="button" class="btn btn-primary">Save</button>
+            </div> -->
       </div>
-      <form id="imgur">
-          <input id="uploadImagineVenue" type="file" class="imgur" accept="image/*" data-max-size="50000"/>
-        </form>
-        <input type="hidden" id="uploadImagineVenueUrl">
-        <button id="addImagineVenue" type="button" class="btn btn-primary">Adauga</button><br/>
       
+
       
       <script type="text/javascript" src="./scripts/EditDetalii.js"></script>
 
@@ -61,9 +104,8 @@
 
       <!-- <button id="myBtn">Open Modal</button> -->
 
-      <form id="imgur">
-        <input type="file" class="imgur" accept="image/*" data-max-size="50000"/>
-      </form>
+      <!-- <form id="imgur">
+        <input type="file" class="imgur" accept="image/*" data-max-size="50000"/> -->
 
 <!-- The Modal -->
 <div id="addBauturaModal" class="modal"> 

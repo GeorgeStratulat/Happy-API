@@ -99,6 +99,7 @@ $.ajax({
   success: function (data){
       console.log(data.venue_id);
       global_venue_id = data.venue_id;
+      localStorage.setItem('venue_id', data.venue_id);
       //////
       
       $(document).ready(function() {
@@ -284,7 +285,9 @@ $.ajax({
     
         $.ajax({
             type: "GET",
-            url:"https://radiant-beyond-44987.herokuapp.com/venue/" + global_venue_id,
+            // url:"https://radiant-beyond-44987.herokuapp.com/venue/" + global_venue_id,
+            url:"https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37",
+
             data:"{}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",

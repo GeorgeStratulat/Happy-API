@@ -56,7 +56,9 @@ function searchPerioada(nameKey, myArray){
 $.ajax(
     {
          type: "GET",
+        //  url: "https://radiant-beyond-44987.herokuapp.com/oferta/" + localStorage.getItem('venue_id'),
          url: "https://radiant-beyond-44987.herokuapp.com/oferta/5c012fa7a909321da86edd37",
+
          data: "{}",
          contentType: "application/json; charset=utf-8",
          dataType: "json",
@@ -77,7 +79,8 @@ $.ajax(
                                  +"<td>"+searchBautura(value.bautura_id, bauturi)+"</td>"
                                  +"<td>"+value.tip_oferta+"</td>"
                                 //  +"<td><td>"+perioada.zile+"</td><td>"+perioada.ora_inceput+" "+perioada.ora_sfarsit+"</td></td>"
-                                 +"<td><td>"+searchPerioada(value.perioada, perioade).zile+"</td><td>"+searchPerioada(value.perioada, perioade).ora_inceput+" "+searchPerioada(value.perioada, perioade).ora_sfarsit+"</td></td>"
+                                //  +"<td><td>"+searchPerioada(value.perioada, perioade).zile+"</td><td>"+searchPerioada(value.perioada, perioade).ora_inceput+" "+searchPerioada(value.perioada, perioade).ora_sfarsit+"</td></td>"
+                                 +"<td ><table><tbody><tr><td>Luni,Marti,Miercuri,Joi,Vineri</td></tr><tr><td>09:00-12:00</td></tr></tbody></table></td>"
                                  +"</tr>" );
                                  if(value.active == true){
                                     $("#oferta").append("<td><button class='deactivate_offer'>Dezactiveaza</button></td>");
