@@ -2,8 +2,9 @@ var imagini = new Array();
 getImagini();
 
 function getImagini(){
+    console.log("url de luat imagini "+ localStorage.getItem('venue_id'));
     var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/imagini";
-    var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/imagini"
+    // var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/imagini";
 
 $.ajax({
     type: "GET",
@@ -38,7 +39,7 @@ $.ajax({
                             success : function(customer) {
                                 
                                 console.log("delete cu succes");
-                                // location.reload();
+                                location.reload();
                                 
                             },
                             error : function(e) {
