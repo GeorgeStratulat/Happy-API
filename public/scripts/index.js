@@ -386,7 +386,7 @@ $.ajax({
                                             $("#numeEdit").val(bautura[index].nume);
                                             $("#imagineEdit").val(bautura[index].imagine);
                                             $("#imagineBautura").attr("src", bautura[index].imagine);
-                                            $("#closeEdit").click(function(){
+                                            $("#closeEditBautura").click(function(){
                                                $('#editModal').hide();
                                             })
     
@@ -450,7 +450,7 @@ $.ajax({
                     var result = confirm("Want to delete?");
                     if(result){
                         $.ajax({
-                            url: "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/deleteImagine/"+data[index]._id,
+                            url: "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/deleteImagine/"+data[index]._id,
                             type: 'DELETE',
                             success : function(customer) {
                                 
@@ -523,8 +523,81 @@ $(function() {
 });
 
 //OFERTE 
-var perioade = new Array();
-var bauturi = new Array();
+
+$("#btnAddOferta").click(function(){
+    $("#addOfertaModal").show();
+    $("#closeAddOfertaModal").click(function(){
+        $("#addOfertaModal").hide();
+    })
+    $.ajax(
+        {
+             type: "GET",
+             url: "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/bautura",
+             data: "{}",
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             cache: false,
+             success: function (data) {
+                bautura = data;
+                console.log(data);
+    
+                $.each(data, function (key, value) {
+                      
+                      
+                      $("#BauturaOfertaAdd").append("<option id='optiune'>"+value.nume+"</option>" );
+                                $('#optiune').val(value._id);
+                                $('#optiune').attr('id', value.imagine);
+                                    });
+    
+                                }
+                            });
+
+                $("#addOfertaButton").click(function(){
+                var checked_days = [];
+                $.each($(".check-day:checked"), function(){            
+                checked_days.push($(this).val());
+                });
+                var ora_inceput = new Date($("#data_inceput").val() + " " + $("#ora_inceput").val());
+                var ora_sfarsit = new Date($("#data_sfarsit").val() + " " + $("#ora_sfarsit").val());
+                var formData = {
+                    nume : $("#numeOfertaAdd").val(),
+                    locatie_id : localStorage.getItem('venue_id'),
+                    numar_bauturi: $("#numarBauturiOfertaAdd").val(),
+                    bautura_id: $("#BauturaOfertaAdd option:selected").val(),
+                    // imagine: $("#BauturaOfertaAdd option:selected").attr('id'),
+                    tip_oferta: $("#TipOfertaAdd").val(),
+                    zile: checked_days,
+                    ora_inceput: ora_inceput,
+                    ora_sfarsit: ora_sfarsit,
+                    data_inceput: $("#data_inceput").val(),
+                    data_sfarsit: $("#data_sfarsit").val()
+                        }
+                    addOferta(formData);
+                                // console.log("esti prost");
+                })
+
+                function addOferta(formData){
+                    console.log(formData);
+                    $.ajax({
+                        type : "POST",
+                        contentType : "application/json",
+                        url : "https://radiant-beyond-44987.herokuapp.com/oferta/"+localStorage.getItem('venue_id')+"/addOferta",
+                        data : JSON.stringify(formData),
+                        dataType : 'json',
+                        success : function(customer) {
+                            console.log(JSON.stringify(customer) );
+                        },
+                        error : function(e) {
+                            alert("Error!")
+                            console.log("ERROR: ", e);
+                        }
+                    });
+                }
+})
+
+
+var perioade = 1;
+var oferte = new Array();
 function getPerioade(){
     $.ajax({
         type: "GET",
@@ -535,7 +608,7 @@ function getPerioade(){
         cache: false,
         success: function (well){
             
-            perioade = well;
+            perioade = 1;
             
         }
     });
@@ -589,7 +662,7 @@ $.ajax(
          dataType: "json",
          cache: false,
          success: function (data) {
-            bautura = data;
+            oferte = data;
             console.log(data);
            
     $( document ).ajaxComplete(function( event, request, settings ) {
@@ -598,7 +671,7 @@ $.ajax(
                
                     console.log(value.nume+ " " +value.tip_oferta);
 
-                    $("#oferteTable tbody").append("<tr class='oferta' id='oferta'>"+"<td>"+value.nume+"</td>"
+                    $("#oferteTable").append("<tr class='oferta' id='oferta'>"+"<td>"+value.nume+"</td>"
                                 
                                  +"<td>"+value.numar_bauturi+"</td>"
                                  +"<td>"+searchBautura(value.bautura_id, bauturi)+"</td>"
@@ -623,8 +696,11 @@ $.ajax(
                                  var btnDeactivate = document.getElementsByClassName("deactivate_offer");
                                  var offers = document.getElementsByClassName("oferta");
                                  
+                                //  $.each(oferte, function(another_index, _valoare){
+
                                  $.each(btnActivate, function(index, value){
                                      btnActivate[index].onclick = function(){
+                                        console.log(key);
                                         var result = confirm("Want to activate the offer?");
                                         if (result) {
                                             $.ajax({
@@ -632,12 +708,12 @@ $.ajax(
                                                 data: [],
                                                 dataType: "json",
                                                 method: "PATCH",
-                                                url: "https://radiant-beyond-44987.herokuapp.com/oferta/activeazaOferta/"+bautura[index]._id,
+                                                url: "https://radiant-beyond-44987.herokuapp.com/oferta/activeazaOferta/"+data[key]._id,
                                                
                                                 success : function(customer) {
                                                     
-                                                    console.log(bautura[index]._id);
-                                                    location.reload();
+                                                    console.log(data[key]._id);
+                                                    // location.reload();
                                                     
                                                 },
                                                 error : function(e) {
@@ -648,7 +724,6 @@ $.ajax(
                                         }
                                      }
                                  });                                        
-                                 $.each(offers, function(another_index){
                                  $.each(btnDeactivate, function(index, value){
                                     btnDeactivate[index].onclick = function(){
                                         console.log(another_index);
@@ -659,11 +734,11 @@ $.ajax(
                                                data: [],
                                                dataType: "json",
                                                method: "PATCH",
-                                               url: "https://radiant-beyond-44987.herokuapp.com/oferta/dezactiveazaOferta/"+bautura[another_index]._id,
+                                               url: "https://radiant-beyond-44987.herokuapp.com/oferta/dezactiveazaOferta/"+oferte[index]._id,
                                               
                                                success : function(customer) {
                                                    location.reload();
-                                                console.log("https://radiant-beyond-44987.herokuapp.com/oferta/dezactiveazaOferta/"+bautura[another_index]._id);
+                                                console.log("https://radiant-beyond-44987.herokuapp.com/oferta/dezactiveazaOferta/"+oferte[index]._id);
                                                    console.log("Dezactivare cu succes");
                                                    
                                                },
@@ -675,7 +750,7 @@ $.ajax(
                                        }
                                     }
                                 });
-                            }); 
+                            // }); 
              
                   
 
@@ -687,6 +762,302 @@ $.ajax(
                             }
                         })
                        
+
+//ORAR 
+
+getOrar();
+
+$("#save_orar").click(function(){
+    var luni = $("#start_luni").val() + "-" + $("#end_luni").val();
+    var marti = $("#start_marti").val() + "-" + $("#end_marti").val();
+    var miercuri = $("#start_miercuri").val() + "-" + $("#end_miercuri").val();
+    var joi = $("#start_joi").val() + "-" + $("#end_joi").val();
+    var vineri = $("#start_vineri").val() + "-" + $("#end_vineri").val();
+    var sambata = $("#start_sambata").val() + "-" + $("#end_sambata").val();
+    var duminica = $("#start_duminica").val() + "-" + $("#end_duminica").val();
+
+    var patchDoc =  { "luni": luni,
+                      "marti": marti,
+                      "miercuri": miercuri,
+                      "joi": joi,
+                      "vineri": vineri,
+                      "sambata": sambata,
+                      "duminica": duminica
+                    } ;
+    console.log(JSON.stringify(patchDoc));
+    $.ajax({
+    contentType: "application/json",
+    data: JSON.stringify(patchDoc),
+    dataType: "json",
+    method: "PATCH",
+    url: "https://radiant-beyond-44987.herokuapp.com/orar/"+localStorage.getItem('venue_id'),
+    success: function(){
+      
+        // if true (1)
+        
+           setTimeout(function(){
+                location.reload(); 
+           }, 0); 
+        
+     }
+    });
+});
+
+function getOrar(){
+    $.ajax({
+        type: "GET",
+        url:"https://radiant-beyond-44987.herokuapp.com/orar/venue/" + localStorage.getItem('venue_id'),
+        data:"{}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        cache: false,
+        success: function (data){
+            console.log("orar->>>" + JSON.stringify(data));
+            var start_luni = data.luni.split('-')[0];
+            var end_luni = data.luni.split("-")[1];
+            $("#start_luni").val(start_luni);
+            $("#end_luni").val(end_luni);
+            var start_marti = data.marti.split('-')[0];
+            var end_marti = data.marti.split("-")[1];
+            $("#start_marti").val(start_marti);
+            $("#end_marti").val(end_marti);
+            var start_miercuri = data.miercuri.split('-')[0];
+            var end_miercuri = data.miercuri.split("-")[1];
+            $("#start_miercuri").val(start_miercuri);
+            $("#end_miercuri").val(end_miercuri);
+            var start_joi = data.joi.split('-')[0];
+            var end_joi = data.joi.split("-")[1];
+            $("#start_joi").val(start_joi);
+            $("#end_joi").val(end_joi);
+            var start_vineri = data.vineri.split('-')[0];
+            var end_vineri = data.vineri.split("-")[1];
+            $("#start_vineri").val(start_vineri);
+            $("#end_vineri").val(end_vineri);
+            var start_sambata = data.sambata.split('-')[0];
+            var end_sambata = data.sambata.split("-")[1];
+            $("#start_sambata").val(start_sambata);
+            $("#end_sambata").val(end_sambata);
+            var start_duminica = data.duminica.split('-')[0];
+            var end_duminica = data.duminica.split("-")[1];
+            $("#start_duminica").val(start_duminica);
+            $("#end_duminica").val(end_duminica);
+            
+        }
+    });
+    }
+
+    //ADD DRINK
+
+    $('#btnAddBautura').click(function(){
+		$('#addBauturaModal').show();
+	});
+	$('#closeAddBauturaModal').click(function(){
+		$('#addBauturaModal').hide();
+	});
+
+	
+	// SUBMIT FORM
+	$("#addBauturaButton").click(function() {
+		// Prevent the form from submitting via the browser.
+		var formData = {
+    		nume : $("#numeBauturaAdd").val(),
+			imagine : $("#uploadImagineBauturaUrl").val(),
+			locatie: localStorage.getItem('venue_id')
+    	}
+		addBautura(formData);
+		console.log("se apasa");
+	});
+	
+	function addBautura(formData){
+		bauturaAdaugatId = 0;
+		$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "https://radiant-beyond-44987.herokuapp.com/bautura/addBautura",
+			data : JSON.stringify(formData),
+			dataType : 'json',
+			success : function(customer) {
+				
+				console.log(JSON.stringify(customer.BauturaAdaugat._id) );
+				bauturaAdaugatId = customer.BauturaAdaugat._id;
+				ajaxPost(bauturaAdaugatId);
+			},
+			error : function(e) {
+				alert("Error!")
+				console.log("ERROR: ", e);
+			}
+		});
+	}
+    
+    function ajaxPost(idBautura){
+    	
+		// PREPARE FORM DATA
+    	
+    	
+    	// DO POST
+		
+
+		var patchDoc =  { "bautura_id": idBautura} ;
+        console.log(JSON.stringify(patchDoc));
+        $.ajax({
+        contentType: "application/json",
+        data: JSON.stringify(patchDoc),
+        dataType: "json",
+        method: "PATCH",
+        url: "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/addBautura",
+        success: function(){
+          
+            // if true (1)
+            
+               setTimeout(function(){
+                    location.reload(); 
+               }, 0); 
+            
+         }
+        });
+    	
+    	// Reset FormData after Posting
+    	resetData();
+ 
+    }
+    
+    function resetData(){
+    	$("#nume").val("");
+        $("#tip").val("");
+        $("#cantitate").val("");
+        $("#locatie").val("");
+        $("#imagine").val("");
+    }
+
+    //EDIT LOCATIE
+
+    
+$('#editLocatie').click(function(){
+    $('#locatieModal').show();
+    $('#pac-input').val($('#locatieVenue').val());
+    $('#closeEditLocatie').click(function(){
+      $('#locatieModal').hide();
+      // $('#editLocatie').unbind();
+    })
+
+       $('#saveEditLocatieButton').click(function(){
+        console.log($('#pac-input').val());
+        var patchDoc =  { "locatie": $("#pac-input").val()} ;
+            console.log(JSON.stringify(patchDoc));
+            $.ajax({
+            contentType: "application/json",
+            data: JSON.stringify(patchDoc),
+            dataType: "json",
+            method: "PATCH",
+            url: "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/locatie",
+            success: function(){
+              
+              // if true (1)
+                 setTimeout(function(){// wait for 5 secs(2)
+                      location.reload(); // then reload the page.(3)
+                 }, 0); 
+              
+           }
+            });
+       });
+
+        });
+        
+        function initAutocomplete() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: -33.8688, lng: 151.2195},
+              zoom: 13,
+              mapTypeId: 'roadmap'
+            });
+    
+            // Create the search box and link it to the UI element.
+            var input = document.getElementById('pac-input');
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    
+            // Bias the SearchBox results towards current map's viewport.
+            map.addListener('bounds_changed', function() {
+              searchBox.setBounds(map.getBounds());
+            });
+    
+            var markers = [];
+            // Listen for the event fired when the user selects a prediction and retrieve
+            // more details for that place.
+            searchBox.addListener('places_changed', function() {
+              var places = searchBox.getPlaces();
+    
+              if (places.length == 0) {
+                return;
+              }
+    
+              // Clear out the old markers.
+              markers.forEach(function(marker) {
+                marker.setMap(null);
+              });
+              markers = [];
+    
+              // For each place, get the icon, name and location.
+              var bounds = new google.maps.LatLngBounds();
+              places.forEach(function(place) {
+                if (!place.geometry) {
+                  console.log("Returned place contains no geometry");
+                  return;
+                }
+                var icon = {
+                  url: place.icon,
+                  size: new google.maps.Size(71, 71),
+                  origin: new google.maps.Point(0, 0),
+                  anchor: new google.maps.Point(17, 34),
+                  scaledSize: new google.maps.Size(25, 25)
+                };
+    
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                  map: map,
+                  icon: icon,
+                  title: place.name,
+                  position: place.geometry.location
+                }));
+    
+                if (place.geometry.viewport) {
+                  // Only geocodes have viewport.
+                  bounds.union(place.geometry.viewport);
+                } else {
+                  bounds.extend(place.geometry.location);
+                }
+              });
+              map.fitBounds(bounds);
+            });
+          }
+          
+
+          // EDIT DETALII
+
+          $('#editDetaliiButton').click(function(){
+            $('#detalii').prop('readonly', false);
+            $("#editDetaliiButton span").text("Save");
+        
+                $('#editDetaliiButton').click(function(){
+                    console.log($('#detalii').val());
+                    var patchDoc =  { "detalii": $("#detalii").val()} ;
+                    console.log(JSON.stringify(patchDoc));
+                    $.ajax({
+                    contentType: "application/json",
+                    data: JSON.stringify(patchDoc),
+                    dataType: "json",
+                    method: "PATCH",
+                    url: "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/descriere"
+                    });
+                    
+                    $("#editDetaliiButton span").text("Edit");
+        
+                    
+                    $('#editDetaliiButton').unbind();
+                    $('#detalii').prop('readonly', true);
+        
+                })
+        });
+
 
                         });
     

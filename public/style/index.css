@@ -143,8 +143,8 @@ body {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80% !important;
-    height: 70% !important;
+    width: 50% !important;
+    height: 30% !important;
 }
 
 /* The Close Button */
@@ -249,7 +249,7 @@ html, body {
 }
 
 #addOfertaModal .modal-content{
-  height:90% !important;
+  height:66% !important;
   position:absolute;
   top: 40px;
   left: 40px;
