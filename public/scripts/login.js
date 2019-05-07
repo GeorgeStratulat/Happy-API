@@ -1,5 +1,16 @@
 var session = "ceva";
 var session_send = "altceva";
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+    } else {
+      // No user is signed in.
+    }
+  });
+
+
+  
 function getVenueId(formData){
     $.ajax({
             type : "POST",
@@ -27,19 +38,13 @@ function sendVenueId(formData){
     $.ajax({
         type : "POST",
         contentType : "application/json",
-        url : "http://127.0.0.1:8000/login",
+        url : "https://happy-admin-da582.firebaseapp.com/login",
         data : JSON.stringify(post),
         dataType : 'text',
         success : function(customer) {
             console.log(JSON.stringify(customer));
-            // console.log(customer);
-            // obj = JSON.parse(customer);
-            // console.log(obj.venue_id);
-            // console.log(JSON.stringify(customer) );
-            // req.session.venue_id = customer.venue_id;
-            // window.localStorage.setItem("venue_id", customer.venue_id);
-            // console.log(window.localStorage.getItem("venue_id"));
-            window.location = "http://localhost:8000/index";
+           
+            window.location = "https://happy-admin-da582.firebaseapp.com/index.html";
         },
         error : function(e) {
             alert("Error!")
@@ -54,21 +59,28 @@ $("#login_button").click(function(){
         username: $("#username_input").val(),
         password: $("#password_input").val()
     };
+
+    firebase.auth().signInWithEmailAndPassword(username, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        window.alert("Error " + errorMessage);
+      });
     // var session = getVenueId(formData);
     // console.log(session);
     
-     getVenueId(formData);
-     $( document ).ajaxComplete(function( event, request, settings ) {
-        if(session!=0){
-        console.log(session);
-        sendVenueId(session);
-        session = 0;
-    }
-        });
+    //  getVenueId(formData);
+    //  $( document ).ajaxComplete(function( event, request, settings ) {
+    //     if(session!=0){
+    //     console.log(session);
+    //     sendVenueId(session);
+    //     session = 0;
+    // }
+    //     });
 
     
 
     
-    console.log("still in the login");
     // console.log(session);
 });

@@ -27,6 +27,7 @@ function getVenueId(formData){
                 // req.session.venue_id = customer.venue_id;
                 session = customer.venue_id;
                 session_send = session;
+                window.location.href="https://happy-admin-da582.firebaseapp.com/index.html";
                 // return session;
             },
             error : function(e) {
@@ -42,7 +43,7 @@ function sendVenueId(formData){
     $.ajax({
         type : "POST",
         contentType : "application/json",
-        url : "http://127.0.0.1:8000/login",
+        url : "https://happy-admin-da582.firebaseapp.com/login",
         data : JSON.stringify(post),
         dataType : 'text',
         success : function(customer) {
@@ -54,7 +55,7 @@ function sendVenueId(formData){
             // req.session.venue_id = customer.venue_id;
             // window.localStorage.setItem("venue_id", customer.venue_id);
             // console.log(window.localStorage.getItem("venue_id"));
-            window.location = "http://localhost:8000/index";
+            window.location = "https://happy-admin-da582.firebaseapp.com/index.html";
         },
         error : function(e) {
             alert("Error!")
@@ -73,13 +74,13 @@ $("#login_button").click(function(){
     // console.log(session);
     
      getVenueId(formData);
-     $( document ).ajaxComplete(function( event, request, settings ) {
-        if(session!=0){
-        console.log(session);
-        sendVenueId(session);
-        session = 0;
-    }
-        });
+    //  $( document ).ajaxComplete(function( event, request, settings ) {
+    //     if(session!=0){
+    //     console.log(session);
+    //     sendVenueId(session);
+    //     session = 0;
+    // }
+    //     });
 
     
 
@@ -87,20 +88,20 @@ $("#login_button").click(function(){
     console.log("still in the login");
     // console.log(session);
 });
-global_venue_id = "0";
+global_venue_id = session;
 
-$.ajax({
-  type: "GET",
-  url:"http://127.0.0.1:8000/getVenueId",
-  data:"{}",
-  contentType: "application/json; charset=utf-8",
-  dataType: "json",
-  cache: false,
-  success: function (data){
-      console.log(data.venue_id);
-      global_venue_id = data.venue_id;
-      localStorage.setItem('venue_id', data.venue_id);
-      //////
+// $.ajax({
+//   type: "GET",
+//   url:"https://happy-admin-da582.firebaseapp.com/getVenueId",
+//   data:"{}",
+//   contentType: "application/json; charset=utf-8",
+//   dataType: "json",
+//   cache: false,
+//   success: function (data){
+//       console.log(data.venue_id);
+//       global_venue_id = data.venue_id;
+//       localStorage.setItem('venue_id', data.venue_id);
+//       //////
       
       $(document).ready(function() {
         jQuery.support.cors = true;
@@ -285,8 +286,8 @@ $.ajax({
     
         $.ajax({
             type: "GET",
-            // url:"https://radiant-beyond-44987.herokuapp.com/venue/" + global_venue_id,
-            url:"https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37",
+            url:"https://radiant-beyond-44987.herokuapp.com/venue/" + session,
+            // url:"https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37",
 
             data:"{}",
             contentType: "application/json; charset=utf-8",
@@ -326,7 +327,8 @@ $.ajax({
         $.ajax(
         {
              type: "GET",
-             url: "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/bautura",
+            //  url: "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/bautura",
+            url: "https://radiant-beyond-44987.herokuapp.com/venue/"+session+"/bautura",
              data: "{}",
              contentType: "application/json; charset=utf-8",
              dataType: "json",
@@ -419,7 +421,7 @@ getImagini();
 
 function getImagini(){
     console.log("url de luat imagini "+ localStorage.getItem('venue_id'));
-    var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/imagini";
+    var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/"+session+"/imagini";
     // var url_imagini = "https://radiant-beyond-44987.herokuapp.com/venue/5c012fa7a909321da86edd37/imagini";
 
 $.ajax({
@@ -532,7 +534,7 @@ $("#btnAddOferta").click(function(){
     $.ajax(
         {
              type: "GET",
-             url: "https://radiant-beyond-44987.herokuapp.com/venue/"+localStorage.getItem('venue_id')+"/bautura",
+             url: "https://radiant-beyond-44987.herokuapp.com/venue/"+session+"/bautura",
              data: "{}",
              contentType: "application/json; charset=utf-8",
              dataType: "json",
@@ -654,7 +656,7 @@ function searchPerioada(nameKey, myArray){
 $.ajax(
     {
          type: "GET",
-         url: "https://radiant-beyond-44987.herokuapp.com/oferta/" + localStorage.getItem('venue_id'),
+         url: "https://radiant-beyond-44987.herokuapp.com/oferta/" + session,
         //  url: "https://radiant-beyond-44987.herokuapp.com/oferta/5c012fa7a909321da86edd37",
 
          data: "{}",
@@ -1062,7 +1064,7 @@ $('#editLocatie').click(function(){
                         });
     
 
-      //////
-  }
-});
+//       //////
+//   }
+// });
 
